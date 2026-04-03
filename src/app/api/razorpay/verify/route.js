@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { cleanPhone10 } from "../../../lib/phone";
 import { sendCoursePurchaseWhatsApp } from "../../../lib/aisensy";
 import { sendCourseAccessEmail } from "../../../lib/brevo";
+import { saveCoursePurchaseToSheet2 } from "../../../lib/googleSheet";
 
 function isValidSignature(orderId, paymentId, signature) {
     const secret = process.env.RAZORPAY_KEY_SECRET;
@@ -15,7 +16,7 @@ export async function POST(req) {
     try {
         const body = await req.json();
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature, name, email, phone } = body;
-        const courseName = "Learn Trading in ₹999";
+        const courseName = "Price Behaviour Mastery";
         const sanitizedName = String(name || "").trim();
         const sanitizedEmail = String(email || "").trim().toLowerCase();
         const courseAccessLink = process.env.COURSE_ACCESS_LINK || "";
@@ -31,6 +32,15 @@ export async function POST(req) {
         }
 
         const phone10 = cleanPhone10(phone);
+        await saveCoursePurchaseToSheet2({
+            name: sanitizedName,
+            email: sanitizedEmail,
+            phone: phone10,
+            courseName: "Price Behaviour Mastery",
+            price: "999",
+            paymentStatus: "Done",
+        });
+
         const notifications = await Promise.allSettled([
             sendCoursePurchaseWhatsApp({
                 name: sanitizedName,

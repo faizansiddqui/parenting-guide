@@ -40,6 +40,7 @@ function loadRazorpayScript() {
 export default function CourseHero() {
   const router = useRouter();
   const videoRef = useRef(null);
+  const paymentCompletedRef = useRef(false);
   const [ready, setReady] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -141,6 +142,8 @@ export default function CourseHero() {
         );
       }
 
+      paymentCompletedRef.current = false;
+
       const options = {
         key: result.keyId,
         amount: result.order.amount,
@@ -155,7 +158,22 @@ export default function CourseHero() {
         },
         theme: { color: "#d9ff3f" },
         modal: {
-          ondismiss: () => setLoading(false),
+          ondismiss: async () => {
+            setLoading(false);
+            if (paymentCompletedRef.current) return;
+            try {
+              await fetch("/api/razorpay/status", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  ...form,
+                  paymentStatus: "Cancel",
+                }),
+              });
+            } catch {
+              // Ignore tracking failure so checkout UX is unaffected.
+            }
+          },
         },
         handler: async (paymentResponse) => {
           try {
@@ -174,6 +192,8 @@ export default function CourseHero() {
                 verifyResult.message || "Payment verification failed.",
               );
             }
+
+            paymentCompletedRef.current = true;
 
             if (typeof window !== "undefined") {
               localStorage.setItem(
@@ -215,9 +235,9 @@ export default function CourseHero() {
           </div> */}
           <div className="space-y-3">
             <h1 className="max-w-3xl text-4xl font-black leading-tight md:text-6xl">
-              Learn Trading only in{" "}
+              PRICE BEHAVIOUR{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#75c13f] to-[#5da432]">
-                ₹999
+                MASTERY
               </span>
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-slate-200 md:text-2xl">

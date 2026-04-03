@@ -108,3 +108,33 @@ export async function readAllLeads() {
   const rows = res.data.values || [];
   return rows.slice(1); // remove header row
 }
+
+export async function saveCoursePurchaseToSheet2({
+  name,
+  email,
+  phone,
+  courseName,
+  price,
+  paymentStatus,
+}) {
+  const sheets = await getSheets();
+
+  const values = [[
+    new Date().toLocaleString("en-IN"),
+    name || "",
+    email || "",
+    phone || "",
+    courseName || "Price Behaviour Mastery",
+    String(price || ""),
+    paymentStatus || "",
+  ]];
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: "Sheet2!A:G",
+    valueInputOption: "RAW",
+    requestBody: { values },
+  });
+
+  return { success: true };
+}

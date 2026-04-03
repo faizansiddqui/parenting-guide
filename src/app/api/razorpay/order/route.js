@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { validateForm } from "../../../lib/validate";
 
-const COURSE_AMOUNT_INR = 999;
+const COURSE_AMOUNT_INR = process.env.COURSE_AMOUNT_INR || 999;
 const COURSE_AMOUNT_PAISE = COURSE_AMOUNT_INR * 100;
 
 export async function POST(req) {
