@@ -99,6 +99,36 @@ export async function sendConfirmation({ name, email, phone10, webinarMeta }) {
   });
 }
 
+export async function sendCoursePurchaseWhatsApp({
+  name,
+  email,
+  phone10,
+  paymentId,
+  orderId,
+  amount,
+  courseName,
+  whatsappCommunityUrl,
+}) {
+  return callAiSensy({
+    apiKey: process.env.AISENSY_API_KEY,
+    campaignName: process.env.AISENSY_CAMPAIGN_COURSE_PURCHASE,
+    destination: to91(phone10),
+    userName: name,
+    // TEMPLATE: {{1}} name, {{2}} email, {{3}} course name, {{4}} WhatsApp community URL
+    templateParams: [name, email, courseName, whatsappCommunityUrl],
+    tags: commonTags(),
+    attributes: {
+      email,
+      paymentId,
+      orderId,
+      amount: String(amount),
+      courseName,
+      whatsappCommunityUrl,
+    },
+    source: process.env.NODE_ENV === "production" ? "website-prod" : "website-local",
+  });
+}
+
 // 1 Day
 export async function send1DayReminder({ name, phone10, webinarDate, webinarDay, webinarTime }) {
   return callAiSensy({

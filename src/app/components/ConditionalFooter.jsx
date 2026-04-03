@@ -5,13 +5,19 @@ import Footer from "./Footer";
 
 export default function ConditionalFooter() {
   const pathname = usePathname();
-  
-  // Don't show footer on thank-you page
-  if (pathname === '/thank-you/') {
+
+  const normalizedPath = pathname?.replace(/\/$/, "") || "";
+
+  // Don't show footer on thank-you/form/course pages
+  if (normalizedPath === "/thank-you") {
     return null;
-  } else if (pathname === '/form/') {
+  } else if (normalizedPath === "/form") {
+    return null;
+  } else if (normalizedPath === "/courses") {
+    return null;
+  } else if (normalizedPath === "/courses/thank-you") {
     return null;
   }
-  
+
   return <Footer />;
 }
