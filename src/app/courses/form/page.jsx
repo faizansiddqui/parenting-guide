@@ -303,7 +303,7 @@ export default function CourseFormPage() {
                 </div>
                 <div className="mt-3 flex items-end justify-center gap-3">
                   <span className="text-xl font-semibold text-slate-400 line-through">
-                    ₹4999
+                    ₹2,4999
                   </span>
                   <span className="text-4xl font-black tracking-tighter text-slate-900">
                     ₹{COURSE_PRICE}
