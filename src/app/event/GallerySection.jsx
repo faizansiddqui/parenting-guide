@@ -1,59 +1,59 @@
-import { useEffect, useRef, useState } from "react";
+"use client";
 
+import { useEffect, useRef, useState } from "react";
 import GalleryCard from "./GalleryCard";
 
 const galleryItems = [
   {
-    image: "/assets/gallery/auditorium-full.png",
-    title: "Advanced Trading Masterclass",
-    event: "Deep dive into market psychology and advanced chart patterns with live demonstrations",
-    participants: "400+ Attendees",
+    image: "/assets/gallery/workshop-1.png",
+    title: "The Conscious Parent Meet",
+    event: "Deep dive into child psychology and emotional intelligence for modern families.",
+    participants: "200+ Parents",
     location: "Mumbai",
-    date: "Oct 2024",
-    highlight: "Sold Out",
-  },
-
-  {
-    image: "/assets/gallery/chart-analysis.png",
-    title: "Live Chart Analysis",
-    event: "Real-time market breakdown and trading setup identification workshop",
-    participants: "350+ Live",
-    location: "Online + Venue",
-    date: "Nov 2024",
+    date: "Jan 2026",
     highlight: "Interactive",
   },
   {
-    image: "/assets/gallery/exam-hall.png",
-    title: "Trading Certification Exam",
-    event: "Rigorous assessment testing practical trading knowledge and strategy execution",
-    participants: "280+ Candidates",
+    image: "/assets/gallery/seminar-2.png",
+    title: "Live Q&A: Screen Time Control",
+    event: "Practical workshop on managing digital habits and improving focus in children.",
+    participants: "150+ Families",
+    location: "Delhi (Live Session)",
+    date: "Feb 2026",
+    highlight: "Housefull",
+  },
+  {
+    image: "/assets/gallery/certification.png",
+    title: "Advanced Parent Graduation",
+    event: "Celebrating parents who completed our 6-month mentorship program.",
+    participants: "80+ Certified",
     location: "Lucknow",
-    date: "Dec 2024",
-    highlight: "92% Pass Rate",
+    date: "Dec 2025",
+    highlight: "Top Success Rate",
   },
   {
-    image: "/assets/gallery/interactive-session.png",
-    title: "Q&A and Mentorship",
-    event: "Direct interaction with mentors addressing individual trading challenges",
-    participants: "200+ Active",
+    image: "/assets/gallery/jaipur-meet.png",
+    title: "Bonding Beyond Boundaries",
+    event: "A special session dedicated to father-child relationship strengthening.",
+    participants: "120+ Active",
     location: "Jaipur",
-    date: "Aug 2024",
+    date: "Nov 2025",
   },
   {
-    image: "/assets/gallery/croud-session.png",
-    title: "Foundation Workshop",
-    event: "Essential trading concepts and risk management fundamentals for beginners",
-    participants: "450+ Participants",
-    location: "Patna",
-    date: "Jul 2024",
+    image: "/assets/gallery/digital-parenting.png",
+    title: "Modern Parenting Foundation",
+    event: "Essential concepts for new parents starting their journey with us.",
+    participants: "300+ Participants",
+    location: "Online",
+    date: "Oct 2025",
   },
   {
-    image: "/assets/gallery/winners-stage.png",
-    title: "Top Performers Recognition",
-    event: "Celebrating traders who achieved exceptional results in the certification program",
-    participants: "15 Winners",
-    location: "Annual Event",
-    date: "Dec 2024",
+    image: "/assets/gallery/awards.png",
+    title: "Excellence Awards 2025",
+    event: "Recognizing extraordinary transformations in parent-child relationships.",
+    participants: "25 Winners",
+    location: "Annual Gala",
+    date: "Dec 2025",
     highlight: "Awards Ceremony",
   },
 ];
@@ -62,7 +62,7 @@ const GallerySection = () => {
   const [visibleItems, setVisibleItems] = useState([]);
   const itemRefs = useRef([]);
 
-  useEffect(() => { 
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -76,51 +76,59 @@ const GallerySection = () => {
     );
 
     itemRefs.current.forEach((ref) => ref && observer.observe(ref));
-
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="gallery" className="py-16 sm:py-24 md:py-32 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16 lg:mb-20">
-          <span className="mb-4 inline-block rounded-full bg-[#75c13f]/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-[#75c13f] sm:px-4 sm:py-1.5">
+    <section id="gallery" className="py-10 sm:py-10 bg-[#FDFBF7] relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-brand-green/5 rounded-full blur-[120px] -z-10" />
+
+      <div className="container mx-auto px-5 sm:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="mx-auto mb-6 max-w-3xl text-center md:mb-10">
+          <span className="mb-4 inline-block rounded-full bg-[#2d1a0a] border border-brand-green/20 px-5 py-2 text-[10px] font-black uppercase tracking-[0.3em] text-brand-green">
             Event Gallery
           </span>
-          <h2 className="mb-4 text-3xl text-gray-900 font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Moments That <span className="bg-gradient-to-r from-[#75c13f] to-[#5da432] hover:from-[#75c13f] hover:to-[#5da432] bg-clip-text text-transparent">Define Excellence</span>
+          <h2 className="mb-6 text-4xl sm:text-5xl md:text-6xl font-black text-[#2D1A0A] tracking-tight">
+            Moments of <span className="text-brand-green italic">Transformation</span>
           </h2>
-          <p className="text-base text-gray-600 sm:text-lg md:text-xl max-w-2xl mx-auto">
-            From intense exam halls to electrifying workshops, witness the journey of traders pushing their limits and achieving breakthroughs.
+          <p className="text-lg text-gray-500 font-medium max-w-2xl mx-auto">
+            Witness our community of mindful parents growing, learning, and building deeper connections with their children.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8">
+        {/* Responsive Grid */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
           {galleryItems.map((item, index) => (
             <div
               key={index}
               ref={(el) => (itemRefs.current[index] = el)}
               data-index={index}
-              className={`opacity-0 translate-y-8 transition-all duration-500 ease-out ${
+              className={`opacity-0 translate-y-12 transition-all duration-700 ease-out ${
                 visibleItems.includes(index) ? "opacity-100 translate-y-0" : ""
-              } ${index % 3 === 1 ? "delay-100" : index % 3 === 2 ? "delay-200" : ""} sm:${index % 2 === 1 ? "delay-100" : ""}`}
+              } ${index % 3 === 1 ? "delay-150" : index % 3 === 2 ? "delay-300" : ""}`}
             >
               <GalleryCard {...item} />
             </div>
           ))}
         </div>
 
-        <div className="mt-12 text-center md:mt-16 lg:mt-20">
-          <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-white/50 p-6 shadow-md backdrop-blur-md transition-all duration-300 sm:flex-row sm:p-8">
-            <div className="text-center sm:text-left">
-              <p className="text-lg font-semibold text-gray-900">
-                Ready to join the next batch?
+        {/* Bottom Banner Card */}
+        <div className="mt-20 text-center">
+          <div className="inline-flex flex-col items-center gap-6 rounded-[2.5rem] bg-white p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 backdrop-blur-md sm:flex-row sm:text-left">
+            <div className="flex-1">
+              <p className="text-xl font-black text-[#2D1A0A]">
+                Ready to be part of our next workshop?
               </p>
-              <p className="text-sm text-gray-600">
-                Limited seats available for upcoming sessions
+              <p className="text-sm text-gray-400 font-bold uppercase tracking-wider mt-1">
+                Seats fill up fast for our offline sessions
               </p>
             </div>
-            <button onClick={() => window.location.href='/form'} className="rounded-lg bg-gradient-to-r from-[#75c13f] to-[#5da432] hover:from-[#75c13f] hover:to-[#5da432] text-gray-900 cursor-pointer px-6 py-3 text-sm font-semibold transition-all duration-300 hover:bg-[#00D9B8]/90 hover:scale-105 hover:shadow-lg hover:shadow-md sm:text-base">
+            <button 
+              onClick={() => window.location.href='/form'} 
+              className="rounded-2xl bg-[#2d1a0a] text-white px-8 py-4 text-sm font-black uppercase tracking-widest shadow-xl transition-all duration-300 hover:bg-brand-green hover:-translate-y-1 active:scale-95 cursor-pointer"
+            >
               Enroll Now
             </button>
           </div>

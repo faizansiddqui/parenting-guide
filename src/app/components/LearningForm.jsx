@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   Users,
-  Video,
   Award,
   Star,
   User,
@@ -10,18 +9,19 @@ import {
   ChevronRight,
   Clock,
   Loader2,
+  Heart,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-// Calculate webinar data outside component to prevent re-renders
+// --- PARENTING TEXT DATA ---
 const calculateWebinarData = () => {
   const now = new Date();
   const SUNDAY = 0;
   const THURSDAY = 4;
 
   let webinarDateObj = new Date();
-  const webinarType = "Live Trading Webinar";
+  const webinarType = "Mindful Parenting Workshop"; // Text changed
   const webinarTime = "08:00 PM";
 
   function getNextDay(targetDay) {
@@ -38,31 +38,65 @@ const calculateWebinarData = () => {
   const webinarDay = webinarDateObj.toLocaleDateString("en-IN", {
     weekday: "long",
   });
-
   const webinarDate = webinarDateObj.toLocaleDateString("en-IN", {
     day: "2-digit",
     month: "short",
     year: "numeric",
   });
 
-  return {
-    webinarDay,
-    webinarDate,
-    webinarTime,
-    webinarType,
-  };
+  return { webinarDay, webinarDate, webinarTime, webinarType };
 };
 
-// Set initial webinar data once
 const initialWebinarData = calculateWebinarData();
 
-export default function LearningForm() {
+const indianStates = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Delhi",
+];
+
+const calculateBookedSeats = () => {
+  const now = new Date();
+  const seatCount = 92 + now.getDate() + Math.floor(now.getHours() / 2);
+  return Math.max(100, seatCount);
+};
+
+export default function LearningForm({ showStickyBar = true }) {
   const router = useRouter();
+  const formRef = useRef(null);
+  const [bookedSeats] = useState(() => calculateBookedSeats());
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
+    state: "",
     webinarDay: initialWebinarData.webinarDay,
     webinarDate: initialWebinarData.webinarDate,
     webinarTime: initialWebinarData.webinarTime,
@@ -70,26 +104,15 @@ export default function LearningForm() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [remainingTime, setRemainingTime] = useState(30 * 60);
 
-  const [remainingTime, setRemainingTime] = useState(30 * 60); // Initialize to 30 minutes
-
-  const formRef = useRef(null);
-
-  // Load saved timer state after component mounts (client-side only)
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedTimer = localStorage.getItem("learningFormTimer");
+      const savedTimer = localStorage.getItem("parentingFormTimer");
       if (savedTimer) {
         const parsedTimer = parseInt(savedTimer, 10);
-        // If timer is still valid (greater than 0), use it
-        if (parsedTimer > 0 && parsedTimer !== remainingTime) {
-          // Only update if different to avoid unnecessary renders
-          setTimeout(() => {
-            setRemainingTime(parsedTimer);
-          }, 0);
-        }
+        if (parsedTimer > 0) setRemainingTime(parsedTimer);
       }
     }
   }, []);
@@ -98,368 +121,125 @@ export default function LearningForm() {
     const timer = setInterval(() => {
       setRemainingTime((prev) => {
         const newTime = prev - 1;
-        // Save current timer state to localStorage (only in browser)
         if (typeof window !== "undefined") {
-          localStorage.setItem("learningFormTimer", newTime.toString());
+          localStorage.setItem("parentingFormTimer", newTime.toString());
         }
-
-        if (newTime <= 0) {
-          // Timer reached 0, reset to 30 minutes
-          const resetTime = 30 * 60;
-          if (typeof window !== "undefined") {
-            localStorage.setItem("learningFormTimer", resetTime.toString());
-          }
-          return resetTime;
-        }
-        return newTime;
+        return newTime <= 0 ? 30 * 60 : newTime;
       });
     }, 1000);
-
-    // Cleanup interval on component unmount
     return () => clearInterval(timer);
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error message when user starts typing
-    if (errorMessage) {
-      setErrorMessage("");
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errorMessage) setErrorMessage("");
   };
 
   const formatTime = (seconds) => {
-    const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${hrs.toString().padStart(2, "0")}h ${mins
-      .toString()
-      .padStart(2, "0")}m ${secs.toString().padStart(2, "0")}s`;
-  };
-
-  const scrollToForm = () => {
-    if (formRef.current) {
-      // Calculate offset for fixed bottom bar (approx 80-100px on mobile)
-      const offset = 100;
-      const elementPosition =
-        formRef.current.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
+    return `${mins.toString().padStart(2, "0")}m ${secs.toString().padStart(2, "0")}s`;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Force update formData with webinar data before submission
-    const webinarData = calculateWebinarData();
-    const updatedFormData = {
-      ...formData,
-      webinarDay: formData.webinarDay || webinarData.webinarDay,
-      webinarDate: formData.webinarDate || webinarData.webinarDate,
-      webinarTime: formData.webinarTime || webinarData.webinarTime,
-      webinarType: formData.webinarType || webinarData.webinarType,
-    };
-
     setIsSubmitting(true);
-    setSubmitSuccess(false);
-    setErrorMessage("");
-
     try {
-      // Ensure webinar data is populated
-      if (!formData.webinarDay || !formData.webinarDate) {
-        // Calculate webinar data if not present
-        const now = new Date();
-        const day = now.getDay();
-        let webinarDateObj = new Date();
-        let webinarType = "Live Trading Webinar";
-        let webinarTime = "08:00 PM";
-
-        const SUNDAY = 0;
-        const THURSDAY = 4;
-
-        function getNextDay(targetDay) {
-          const result = new Date(now);
-          const dayDiff = (targetDay - now.getDay() + 7) % 7;
-          result.setDate(now.getDate() + (dayDiff === 0 ? 7 : dayDiff));
-          return result;
-        }
-
-        const nextSunday = getNextDay(SUNDAY);
-        const nextThursday = getNextDay(THURSDAY);
-        webinarDateObj = nextSunday < nextThursday ? nextSunday : nextThursday;
-        const webinarDay = webinarDateObj.toLocaleDateString("en-IN", {
-          weekday: "long",
-        });
-
-        const webinarDate = webinarDateObj.toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        });
-
-        // Update form data with webinar info
-        setFormData((prev) => ({
-          ...prev,
-          webinarDay,
-          webinarDate,
-          webinarTime,
-          webinarType,
-        }));
-
-        // Use the calculated data for submission
-        formData.webinarDay = webinarDay;
-        formData.webinarDate = webinarDate;
-        formData.webinarTime = webinarTime;
-        formData.webinarType = webinarType;
-      }
-
-      // Prepare phone number without country code
-      let formattedPhone = updatedFormData.phone.trim();
-      if (formattedPhone.startsWith("91")) {
-        formattedPhone = formattedPhone.substring(2);
-      } else if (formattedPhone.startsWith("+91")) {
+      let formattedPhone = formData.phone.trim();
+      if (formattedPhone.startsWith("+91"))
         formattedPhone = formattedPhone.substring(3);
-      } else if (formattedPhone.startsWith("0")) {
-        formattedPhone = formattedPhone.substring(1);
-      }
+      else if (formattedPhone.startsWith("91"))
+        formattedPhone = formattedPhone.substring(2);
 
-      // Ensure we have a 10-digit number
-      if (formattedPhone.length !== 10) {
-        throw new Error("Invalid phone number. Must be 10 digits.");
-      }
-
-      // Ensure webinar data is always included
-      const webinarData = calculateWebinarData();
-
-      // Create payload with all form data including webinar info
-      const payload = {
-        ...updatedFormData,
-        phone: formattedPhone,
-      };
-
-      // Double-check webinar data is included
-      if (!payload.webinarDay || !payload.webinarDate) {
-        payload.webinarDay = webinarData.webinarDay;
-        payload.webinarDate = webinarData.webinarDate;
-        payload.webinarTime = webinarData.webinarTime;
-        payload.webinarType = webinarData.webinarType;
-      }
-
-      // Call the API route
       const response = await fetch("/api/whatsapp", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, phone: formattedPhone }),
       });
 
       const result = await response.json();
-
       if (result.success) {
-        // Store form data in localStorage for thank-you page
-        const thankYouData = {
-          name: formData.name,
-          email: formData.email,
-          phone: formattedPhone,
-          timestamp: new Date().toISOString(),
-        };
-        localStorage.setItem("thankyouData", JSON.stringify(thankYouData));
-
-        // Redirect to thank-you page
-        router.push("/thank-you");
-
-        // Optionally, you can still show success message locally too
-        setSubmitSuccess(true);
-
-        // Reset form after successful submission
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          webinarDay: "",
-          webinarDate: "",
-          webinarTime: "",
-          webinarType: "",
-        });
-
-        // Show success message temporarily
-        setTimeout(() => {
-          setSubmitSuccess(false);
-        }, 5000);
-      } else {
-        // Handle API error safely
-        const errorMessage =
-          result.message || result.error || "Submission failed";
-        throw new Error(
-          typeof errorMessage === "string"
-            ? errorMessage
-            : "Unknown error occurred"
+        localStorage.setItem(
+          "thankyouData",
+          JSON.stringify({ ...formData, phone: formattedPhone }),
         );
+        router.push("/thank-you");
+      } else {
+        throw new Error(result.message || "Failed");
       }
-    } catch (error) {
-      console.error("Form submission error:", error);
-      setErrorMessage(
-        error.message ||
-          "An error occurred while submitting the form. Please try again."
-      );
+    } catch (err) {
+      setErrorMessage(err.message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div
-      className="relative min-h-screen bg-[#f8fafc] flex items-center justify-center overflow-hidden py-12 px-4 pb-24" // Added pb-24 to prevent bottom bar overlap
-    >
-      {/* --- Background Design --- */}
+    <div className="relative min-h-screen bg-[#FDFBF7] flex items-center justify-center py-12 px-4 pb-5 md:pb-10 overflow-hidden">
+      {/* --- Earthy Background Design --- */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#00D9B8_0.5px,transparent_0.5px)] [background-size:24px_24px] opacity-[0.15]" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#00D9B8]/10 rounded-full blur-[100px]" />
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#3B5E2B_0.5px,transparent_0.5px)] [background-size:32px_32px] opacity-[0.1]" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#3B5E2B]/10 rounded-full blur-[100px]" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#4A2B12]/5 rounded-full blur-[100px]" />
       </div>
 
-      <div className="relative z-10 w-full max-w-6xl bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-white overflow-hidden">
+      <div className="relative z-10 w-full max-w-6xl bg-white rounded-[3rem] shadow-[0_25px_70px_rgba(74,43,18,0.08)] border border-white overflow-hidden">
         <div className="grid lg:grid-cols-2">
-          {/* LEFT PANEL: Mentor Visuals (Desktop) */}
-          <div className="relative hidden lg:flex flex-col items-center justify-center p-12 bg-gradient-to-br from-slate-50 to-white border-r border-slate-100">
-            {/* Badges */}
-            <div className="absolute top-10 left-10 animate-float">
-              <div className="bg-white/80 backdrop-blur-md p-3 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-3">
-                <div className="bg-yellow-400 p-2 rounded-lg">
-                  <Star className="w-5 h-5 text-white fill-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-black text-slate-800 leading-none">
-                    4.8/5
-                  </p>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">
-                    Top Rated Mentor
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute bottom-20 right-10 animate-float delay-700">
-              <div className="bg-white/80 backdrop-blur-md p-3 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-3">
-                <div className="bg-gradient-to-r from-[#75c13f] to-[#5da432] p-2 rounded-lg text-white">
-                  <Users className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-black text-slate-800 leading-none">
-                    30K+
-                  </p>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">
-                    Active Students
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Main Mentor Image Container */}
-            <div className="relative group">
-              <div className="absolute inset-0 bg-[#00D9B8]/20 rounded-full blur-3xl group-hover:bg-[#00D9B8]/30 transition-all duration-500" />
-              <div className="relative w-72 h-96 xl:w-120 xl:h-[500px] bg-white rounded-[3rem] overflow-hidden border-8 border-white shadow-2xl">
-                <Image
-                  fill
-                  alt="Mentor Mahabali"
-                  src="/tradingWeb.png"
-                  className="object-cover object-top hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-            </div>
-
-            <div className="mt-8 text-center">
-              <h3 className="text-2xl font-black text-slate-800">
-                Mr. Suresh Latiyal
-              </h3>
-              <p className="text-sm font-bold text-slate-800 bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent uppercase tracking-[0.2em]">
-                Price Action Expert
-              </p>
-            </div>
-          </div>
-
-          {/* RIGHT PANEL: Form Section */}
-          <div className="p-8 sm:p-12 lg:p-16" ref={formRef}>
+          {/* LEFT PANEL: Form Section */}
+          <div className="p-6 sm:p-12 lg:p-16" ref={formRef}>
             <div className="max-w-md mx-auto">
-              <div className="mb-10 text-center lg:text-left">
-                <h2 className="text-3xl sm:text-4xl font-black text-slate-900 leading-[1.15]">
-                  Start Your{" "}
-                  <span className="bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent">
-                    Trading
+              <div className="mb-2 lg:text-left">
+                <h2 className="text-3xl sm:text-4xl font-black text-[#4A2B12] leading-tight">
+                  Master The Art of{" "}
+                  <span className="text-[#3B5E2B] italic font-serif">
+                    Mindful
                   </span>{" "}
-                  Journey Today
+                  Parenting
                 </h2>
-                <p className="mt-4 text-slate-500 font-medium">
-                  Fill the form below to get a personalized roadmap from our
-                  experts.
+                <p className="mt-4 text-stone-500 font-medium leading-relaxed">
+                  Apne bache ke bhavishya ko ek nayi disha dein. Workshop join
+                  karne ke liye form bharein.
                 </p>
 
-                {/* Mobile Mentor Teaser (Hidden on Desktop) */}
-                <div className="flex lg:hidden items-center gap-4 mt-8 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <div className="w-12 h-12 rounded-full overflow-hidden bg-white border-2 border-[#75c13f]">
-                    <Image
-                      width={48}
-                      height={48}
-                      src="/tradingWeb.png"
-                      alt="Suresh Latiyal"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-bold text-slate-800">
-                      Mr. Suresh Latiyal
-                    </p>
-                    <div className="flex items-center gap-1 text-[10px] bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent font-black uppercase tracking-widest">
-                      <Users className="w-3 h-3 text-[#75c13f]" /> 30k+ Learners
-                    </div>
-                  </div>
-                </div>
-
-                {/* Error Message */}
                 {errorMessage && (
-                  <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                  <div className="mt-4 p-3 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-bold animate-pulse">
                     {errorMessage}
                   </div>
                 )}
               </div>
+              <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#3B5E2B]/10 text-[#3B5E2B] text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+                <span className="text-[#4A2B12]">
+                  {bookedSeats} Seats Booked
+                </span>
+                {/* <span></span> */}
+              </span>
 
-              <form onSubmit={handleSubmit} className="space-y-5 scroll-mt-24">
-                {/* Name Field */}
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1">
-                    Full Name
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">
+                    Parent&apos;s Full Name
                   </label>
                   <div className="relative group">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-[#75c13f] transition-colors" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-300 group-focus-within:text-[#3B5E2B] transition-colors" />
                     <input
                       type="text"
                       name="name"
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="e.g. Rahul Sharma"
-                      className="w-full pl-12 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-[#75c13f]/20 focus:border-[#75c13f] transition-all text-slate-800"
+                      placeholder="e.g. Rahul Singh"
+                      className="w-full pl-12 pr-5 py-4 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-4 focus:ring-[#3B5E2B]/5 focus:border-[#3B5E2B] transition-all text-[#4A2B12] font-bold"
                     />
                   </div>
                 </div>
 
-                {/* Email Field */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">
                     Email Address
                   </label>
                   <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-[#75c13f] transition-colors" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-300 group-focus-within:text-[#3B5E2B] transition-colors" />
                     <input
                       type="email"
                       name="email"
@@ -467,104 +247,164 @@ export default function LearningForm() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="rahul@example.com"
-                      className="w-full pl-12 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-[#75c13f]/20 focus:border-[#75c13f] transition-all text-slate-800"
+                      className="w-full pl-12 pr-5 py-4 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-4 focus:ring-[#3B5E2B]/5 focus:border-[#3B5E2B] transition-all text-[#4A2B12] font-bold"
                     />
                   </div>
                 </div>
 
-                {/* Phone Field */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1">
-                    Phone Number
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">
+                    State
+                  </label>
+                  <div className="relative group">
+                    <select
+                      name="state"
+                      required
+                      value={formData.state}
+                      onChange={handleChange}
+                      className="w-full appearance-none px-5 pr-12 py-4 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-4 focus:ring-[#3B5E2B]/5 focus:border-[#3B5E2B] transition-all text-[#4A2B12] font-bold"
+                    >
+                      <option value="">Select your state</option>
+                      {indianStates.map((stateName) => (
+                        <option key={stateName} value={stateName}>
+                          {stateName}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronRight className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-300 rotate-90" />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">
+                    WhatsApp Number
                   </label>
                   <div className="flex gap-3">
-                    <div className="flex items-center justify-center w-16 bg-slate-100 border border-slate-200 rounded-2xl text-slate-500 font-bold text-sm">
+                    <div className="flex items-center justify-center w-16 bg-stone-100 border border-stone-100 rounded-2xl text-[#4A2B12] font-black text-xs">
                       +91
                     </div>
                     <div className="relative flex-1 group">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-[#75c13f] transition-colors" />
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-300 group-focus-within:text-[#3B5E2B] transition-colors" />
                       <input
                         type="tel"
                         name="phone"
                         required
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="98765 43210"
-                        className="w-full pl-12 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-[#75c13f]/20 focus:border-[#75c13f] transition-all text-slate-800"
+                        placeholder="98765 43510"
+                        className="w-full pl-12 pr-5 py-4 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-4 focus:ring-[#3B5E2B]/5 focus:border-[#3B5E2B] transition-all text-[#4A2B12] font-bold"
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full group mt-4 font-black cursor-pointer text-lg py-5 rounded-2xl transition-all duration-300 shadow-xl flex items-center justify-center gap-2 ${
+                  className={`w-full group mt-4 font-black text-sm uppercase tracking-[0.2em] py-5 rounded-2xl transition-all duration-500 shadow-xl flex items-center justify-center gap-3 ${
                     isSubmitting
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-slate-900 hover:bg-gradient-to-r from-[#75c13f] to-[#5da432] text-white hover:text-gray-900"
+                      ? "bg-stone-200 text-stone-400"
+                      : "bg-[#4A2B12] hover:border hover:border-[#4A2B12] hover:text-[#4A2B12] cursor-pointer hover:bg-white text-white"
                   }`}
                 >
                   {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Sending...
-                    </>
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
-                      Send Enquiry
+                      Register Now — Free{" "}
                       <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </button>
               </form>
+            </div>
+          </div>
 
-              <p className="mt-8 text-center text-xs text-slate-400 font-medium">
-                By submitting, you agree to our{" "}
-                <span className="underline cursor-pointer">Terms</span> &{" "}
-                <span className="underline cursor-pointer">Privacy Policy</span>
+          {/* RIGHT PANEL: Mentor Visuals */}
+          <div className="relative hidden lg:flex flex-col items-center justify-center p-12 bg-gradient-to-br from-[#FDFBF7] to-white border-r border-stone-100">
+            {/* Badges */}
+            <div className="absolute top-15 right-10 animate-float z-99">
+              <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-md border border-stone-100 flex items-center gap-3">
+                <div className="bg-[#D99B38] p-2 rounded-xl">
+                  <Star className="w-5 h-5 text-white fill-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-black text-[#4A2B12] leading-none">
+                    4.9/5
+                  </p>
+                  <p className="text-[10px] text-stone-400 font-bold uppercase tracking-wider">
+                    Expert Mentor
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute bottom-20 left-8 animate-float delay-700">
+              <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-md border border-stone-100 flex items-center gap-3">
+                <div className="bg-[#3B5E2B] p-2 rounded-xl text-white">
+                  <Heart className="w-5 h-5 fill-current" />
+                </div>
+                <div>
+                  <p className="text-sm font-black text-[#4A2B12] leading-none">
+                    25K+
+                  </p>
+                  <p className="text-[10px] text-stone-400 font-bold uppercase tracking-wider">
+                    Happy Parents
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative group">
+              <div className="absolute inset-0 bg-[#3B5E2B]/10 rounded-full blur-3xl group-hover:bg-[#3B5E2B]/20 transition-all duration-700" />
+              <div className="relative w-80 h-[400px] bg-white rounded-[2rem] overflow-hidden border-8 border-white shadow-xl">
+                <Image
+                  fill
+                  alt="Parenting Expert"
+                  src="/profile.jpg"
+                  className="object-cover hover:scale-105 transition-transform duration-1000"
+                />
+              </div>
+            </div>
+
+            <div className="mt-8 text-center">
+              <h3 className="text-2xl font-black text-[#4A2B12]">
+                Mr. Pravesh Gupta
+              </h3>
+              <p className="text-sm font-black text-[#3B5E2B] uppercase tracking-[0.3em] mt-1">
+                Child Psychology Expert
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Fixed Bottom Access Button */}
-      <div className="fixed bottom-0 left-0 w-full z-[100] bg-black/80 backdrop-blur-xl border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.4)]">
-        <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
-          <div className="flex flex-row items-center justify-between gap-4">
-            {/* Timer Section */}
-            <div className="flex items-center gap-2 sm:gap-4">
-              <div className="bg-red-500/20 p-2 rounded-xl hidden xs:block">
+      {showStickyBar && (
+        <div className="fixed bottom-0 left-0 w-full z-[100] bg-white/90 backdrop-blur-xl border-t border-stone-100 shadow-[0_-15px_40px_rgba(74,43,18,0.05)]">
+          <div className="max-w-7xl mx-auto px-2 md:px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="bg-red-50 p-2 rounded-xl">
                 <Clock className="w-5 h-5 text-red-500 animate-pulse" />
               </div>
               <div>
-                <p className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">
-                  Offer Ends In
+                <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest leading-none mb-1">
+                  Closing Soon
                 </p>
-                <div className="text-lg sm:text-2xl font-mono font-black text-white tabular-nums tracking-tighter">
+                <div className="text-xl sm:text-2xl font-mono font-black text-[#4A2B12] tabular-nums tracking-tighter">
                   {formatTime(remainingTime)}
                 </div>
               </div>
             </div>
 
-            {/* Premium Button */}
             <button
-              onClick={() => (window.location.href = "/courses")}
-              className="relative group overflow-hidden bg-white cursor-pointer hover:bg-[#75c13f] text-black hover:text-gray-900 font-black text-sm sm:text-lg px-6 sm:px-12 py-3 sm:py-4 rounded-xl sm:rounded-2xl transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-95"
+              onClick={() => (window.location.href = "/form")}
+              className="hover:bg-white bg-[#4A2B12] text-white hover:text-[#4A2B12] hover:border hover:border-[#4A2B12] cursor-pointer font-black text-xs sm:text-sm tracking-[0.2em] px-4 sm:px-12 py-4 rounded-2xl transition-all duration-500 shadow-lg active:scale-95 uppercase flex items-center gap-2"
             >
-              {/* Shimmer Animation */}
-              <div className="absolute inset-0 w-full h-full bg-gradient-from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" />
-
-              <span className="relative flex items-center gap-2">
-                FREE ACCESS <span className="hidden sm:inline">NOW</span>
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
+              FREE ACCESS <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>
-      </div>
+      )}
 
       <style jsx>{`
         @keyframes float {
@@ -576,19 +416,8 @@ export default function LearningForm() {
             transform: translateY(-15px);
           }
         }
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%) skewX(-15deg);
-          }
-          100% {
-            transform: translateX(200%) skewX(-15deg);
-          }
-        }
         .animate-float {
-          animation: float 5s ease-in-out infinite;
-        }
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
+          animation: float 6s ease-in-out infinite;
         }
       `}</style>
     </div>

@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const Index = () => {
-  const [open, setOpen] = useState(false);
+const MobileHero = () => {
   const [headerVisible, setHeaderVisible] = useState(true);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
         setHeaderVisible(false);
       } else {
         setHeaderVisible(true);
@@ -20,225 +19,141 @@ const Index = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-      setOpen(false);
-    }
-  };
-
   return (
     <div
       id="hero"
-      className="min-h-screen relative bg-[hsl(220_26%_8%)] overflow-hidden"
+      className="min-h-screen relative bg-[#FDFBF7] overflow-hidden font-sans"
     >
-      {/* Background Chart Image */}
-      <div className="absolute inset-0 bg-[url('/chart1.png')] bg-cover bg-center opacity-70"></div>
+      {/* Background Texture - Opacity reduced for maximum text clarity */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none"></div>
 
-      {/* Premium Black Overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
-
-      {/* Green Glow Effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(142_76%_45%_/_0.2)] via-transparent to-[hsl(142_76%_45%_/_0.1)] pointer-events-none" />
-
-      {/* Header */}
+      {/* Header - Stronger visibility */}
       <header
-        className={`fixed left-0 w-full z-[9999] bg-[hsl(220_20%_15%_/_0.6)] backdrop-blur-xl border-b border-white/10 shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`fixed left-0 w-full z-[9999] bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-md transition-transform duration-300 ${
           headerVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-3 py-3">
-          {/* LOGO - LEFT */}
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center p-1.5">
-            <img
-              src="/finalLogo.png"
-              alt="MahaBali Logo"
-              className="w-full h-full rounded-full object-contain drop-shadow-md"
-            />
+        <div className="flex items-center justify-between px-5 py-3">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1">
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            {/* <h1 className="text-[#331d0c] text-sm font-black tracking-tighter uppercase">
+              Parenting <span className="text-brand-green">Guide</span>
+            </h1> */}
           </div>
-
-          {/* TEXT - RIGHT */}
           <div className="leading-tight text-right">
-            <h1 className="text-white text-base sm:text-2xl font-extrabold tracking-wide uppercase drop-shadow-lg">
-              India's
-              <span className="ml-1 text-xl sm:text-2xl font-black">1</span>
-              <sup className="text-xs sm:text-sm font-bold ml-0.5">st</sup>
-            </h1>
-            <p className="text-[#75c13f] text-xs sm:text-base font-bold uppercase tracking-wide mt-0.5 drop-shadow-md">
-              Price Behavior Program
+            <div className="text-[#2D1A0A] text-lg font-black italic">
+              PREMIUM <span className="text-brand-green">ADVICE</span>
+            </div>
+            <p className="text-gray-400 text-[11px] font-bold tracking-widest uppercase">
+              Nurturing Future
             </p>
           </div>
         </div>
       </header>
 
-      {/* Content Container */}
-      <div className="relative z-10 max-w-lg mx-auto pt-20 min-h-screen flex flex-col">
-        {/* Headline */}
-        <div className="px-4 pt-3 pb-2">
-          {/* PREMIUM MOBILE-FRIENDLY HEADLINE */}
-          <h1
-            className="text-center uppercase font-extrabold 
-                 text-[18px] sm:text-[24px] 
-                 leading-[1.2] tracking-wide 
-                 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.3)]"
-          >
-            <span className="block text-[hsl(48_100%_60%)]">
-              REVEALED SECRET OF
-            </span>
-            <span className="block mt-0.5 text-[hsl(0,0%,100%)]">
-              SUCCESSFUL TRADER
-            </span>
+      {/* Main Content Container */}
+      <div className="relative z-10 max-w-lg mx-auto pt-20 pb-5 px-5 flex flex-col items-center">
+        {/* Headline - Bold & High Contrast */}
+        <div className="text-center w-full mb-3">
+          {/* <span className="inline-block py-1 px-4 rounded-full bg-brand-green/10 border border-brand-green/20 text-[#4A2B12] text-[10px] font-black tracking-widest uppercase mb-4 shadow-sm">
+            Expert Training Program
+          </span> */}
+          <h1 className="text-2xl font-black leading-[1.1] text-[#2D1A0A] tracking-tight drop-shadow-sm">
+            NOURISHING LIVES, <br />
+            <span className="text-brand-green">GUIDING HEARTS</span>
           </h1>
-
-          {/* LIVE Badge */}
-          <div className="flex justify-center mt-3">
-            <div className="relative group">
-              {/* Glow */}
-              <div
-                className="absolute inset-0 rounded-2xl blur-xl bg-red-500 opacity-40 
-                      group-hover:opacity-60 transition-all duration-300"
-              />
-
-              {/* Button */}
-              <div
-                className="relative rounded-2xl px-2.5 py-1.5 bg-gradient-to-br 
-                      from-red-600 to-red-700 shadow-2xl border border-white/10"
-              >
-                <div className="flex items-center justify-center gap-2">
-                  <div className="flex items-center justify-center gap-0">
-                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                    <div className="w-2.5 h-2.5 bg-white rounded-full animate-ping" />
-                  </div>
-                  <span className="text-white text-base sm:text-lg font-extrabold tracking-widest drop-shadow-lg">
-                    LIVE
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-white text-[10px] font-bold text-center mt-1.5 tracking-[0.2em]">
-                TRAINING
-              </p>
+        </div>
+        {/* Button */}
+        <div className="relative rounded-2xl px-2.5 py-1.5 bg-gradient-to-br from-red-600 to-red-700 shadow-2xl border border-white/10">
+          <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-0">
+              <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+              <div className="w-2.5 h-2.5 bg-white rounded-full animate-ping" />
             </div>
+            <span className="text-white text-base sm:text-lg font-extrabold tracking-widest drop-shadow-lg">
+              ACCESS NOW
+            </span>
           </div>
         </div>
 
-        {/* Mentor Section - Compact */}
-        <div className="relative px-4 py-0">
-          <div className="w-full max-w-[240px] mx-auto relative">
-            {/* Mentor Image - Smaller with glow */}
-            <div
-              className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-[hsl(220_20%_25%_/_0.3)]
-                   "
-            >
+        {/* Mentor Image Section */}
+        <div className="relative mb-3 mt-2">
+          <div className="relative w-[240px] aspect-[4/5] mx-auto">
+            {/* Soft background shape behind image */}
+            <div className="absolute inset-0 bg-brand-green/5 rounded-[2.5rem] scale-105 border border-brand-green/10" />
+
+            <div className="relative h-full w-full rounded-[2rem] overflow-hidden border-4 border-white shadow-2xl">
               <img
-                src={"/neerajSirImg.png"}
-                alt="Mr. Suresh Latiyal - Professional Trading Instructor"
-                className="w-full h-full object-cover  shadow-[0_15px_40px_rgba(34,197,94,0.3),_-15px_0_40px_rgba(34,197,94,0.2),_15px_0_40px_rgba(34,197,94,0.2)]"
+                src="/profile.jpg"
+                alt="Advisor Pravesh Gupta"
+                className="w-full h-full object-cover"
               />
+            </div>
 
-              {/* Stats Overlays - Compact */}
-              <div className="absolute left-1.5 top-1/2 -translate-y-1/2 bg-[hsl(220_26%_8%_/_0.95)] backdrop-blur-sm p-2 rounded-lg shadow-xl border border-[hsl(142_76%_45%_/_0.2)]">
-                <p className="text-white text-xl sm:text-2xl font-black leading-none uppercase">
-                  2700+
-                </p>
-                <p className="text-white text-[10px] font-black leading-tight mt-0.5 uppercase">
-                  Success
-                  <br />
-                  Stories
-                </p>
-              </div>
+            {/* Floating Stats - Enhanced Visibility */}
+            <div className="absolute -left-6 top-1/4 bg-white px-4 py-2 rounded-[1rem] shadow-[0_10px_25px_rgba(0,0,0,0.1)] border border-gray-100">
+              <p className="text-[#4A2B12] text-xl font-black leading-none">
+                500+
+              </p>
+              <p className="text-[9px] font-bold text-gray-500 uppercase mt-1">
+                Families
+              </p>
+            </div>
 
-              <div className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-[hsl(220_26%_8%_/_0.95)] backdrop-blur-sm p-2 rounded-lg shadow-xl border border-[hsl(142_76%_45%_/_0.2)]">
-                <div className="flex items-baseline gap-0.5">
-                  <p className="text-white text-xl sm:text-2xl font-black leading-none uppercase">
-                    14
-                  </p>
-                  <span className="text-white text-[10px] font-black uppercase">
-                    Year
-                  </span>
-                </div>
-                <p className="text-white text-[10px] font-black leading-tight mt-0.5 uppercase">
-                  Experience
-                </p>
-              </div>
+            <div className="absolute -right-6 bottom-1/4 bg-white px-4 py-2 rounded-[1rem] shadow-[0_10px_25px_rgba(0,0,0,0.1)] border border-gray-100">
+              <p className="text-[#4A2B12] text-xl font-black leading-none">
+                Expert
+              </p>
+              <p className="text-[9px] font-bold text-gray-500 uppercase mt-1">
+                Advisor
+              </p>
             </div>
           </div>
         </div>
 
-        {/* CTA Section - Compact */}
-        <div className="mt-0 px-3 pb-3">
-          <div
-            className="w-full bg-[hsl(220_20%_15%_/_0.6)] backdrop-blur-xl 
-                  rounded-3xl border border-white/10 shadow-2xl 
-                  p-3 flex flex-col items-center"
+        {/* Action Card - High Contrast UI */}
+        <div className="w-full bg-white backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-3 flex flex-col items-center justify-center text-center">
+          <button
+            onClick={() => (window.location.href = "/form")}
+            className="w-full py-5 px-1 rounded-2xl bg-[#4A2B12] text-white text-lg font-black uppercase tracking-widest shadow-xl active:bg-brand-green transition-all"
           >
-            {/* REGISTER BUTTON */}
-            <button
-              onClick={() => (window.location.href = "/form")}
-              className="
-    group relative overflow-hidden
-    w-full max-w-xs py-4
-    rounded-full 
-    text-lg sm:text-xl font-black uppercase tracking-wider
-    bg-[#75c13f]
-    text-gray-900
-    /* Depth and Dimension */
-    hover:shadow-[0_4px_0_rgb(93,156,50)]
-    /* Glow effect matching your color */
-    hover:shadow-[0_20px_40px_-10px_rgba(117,193,63,0.5)]
-    /* Movement */
-    translate-y-[2px]
-    hover:-translate-y-[4px]
-    active:translate-y-[2px] active:shadow-none
-    transition-all duration-150 ease-in-out
-    cursor-pointer
-  "
-            >
-              {/* Glass Shine Effect */}
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]"></span>
+            Register Now — Free
+          </button>
 
-              <span className="relative z-10">Register Now — Free</span>
-            </button>
-            {/* DETAILS BLOCK */}
-            <div className="text-center mt-6 p-6 rounded-3xl  ">
-              {/* TOP LABEL */}
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <span className="h-[1px] w-8  bg-[#75c13f]/50"></span>
-                <p className="text-white/60 text-xs font-bold uppercase tracking-[0.3em]">
-                  Training Program
-                </p>
-                <span className="h-[1px] w-8 bg-[#75c13f]/50"></span>
-              </div>
+          <div className="relative inline-block mt-6">
+            <p className="text-gray-500 text-lg font-bold line-through decoration-[#2D1A0A]/50 mb-[-8px]">
+              ₹10,000 VALUE
+            </p>
+            <h2 className="text-black text-4xl sm:text-5xl font-black tracking-tighter italic drop-shadow-2xl">
+              FREE <span className="text-[#2D1A0A]">NOW</span>
+            </h2>
+          </div>
 
-              {/* VALUE SECTION */}
-              <div className="relative inline-block mt-2">
-                <p className="text-white/40 text-lg font-bold line-through decoration-[#75c13f]/50 mb-[-8px]">
-                  ₹10,000 VALUE
-                </p>
-                <h2 className="text-white text-4xl sm:text-5xl font-black tracking-tighter italic drop-shadow-2xl">
-                  FREE <span className="text-[#75c13f]">NOW</span>
-                </h2>
-              </div>
+          {/* DETAILS BLOCK */}
+          <div className="text-center p-6 rounded-3xl  ">
+            {/* CALL TO ACTION SUBTEXT */}
+            <p className="text-sm font-medium text-gray-600 flex items-center justify-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2D1A0A] animate-pulse"></span>
+              Exclusive Access for Early Birds
+            </p>
 
-              {/* CALL TO ACTION SUBTEXT */}
-              <p className="mt-3 text-sm font-medium text-white/80 flex items-center justify-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#75c13f] animate-pulse"></span>
-                Exclusive Access for Early Birds
+            {/* MENTOR SECTION */}
+            <div className="pt-4 border-t border-white/10">
+              <p className="text-[#2D1A0A] text-[10px] font-black tracking-[0.25em] uppercase mb-1">
+                Mentor
               </p>
-
-              {/* MENTOR SECTION */}
-              <div className="mt-6 pt-4 border-t border-white/10">
-                <p className="text-[#75c13f] text-[10px] font-black tracking-[0.25em] uppercase mb-1">
-                  Masterclass Lead By
-                </p>
-                <p className="text-white text-xl font-extrabold tracking-tight">
-                  Mr. Suresh Latiyal
-                </p>
-                <p className="text-white/40 text-[10px] uppercase font-medium mt-1">
-                  Industry Expert & Mentor
-                </p>
-              </div>
+              <p className="text-[#2D1A0A] text-xl font-extrabold tracking-tight">
+                Mr. Pravesh Gupta
+              </p>
+              <p className="text-gray-600 text-[10px] uppercase font-medium mt-1">
+                Advisory Expert & Mentor
+              </p>
             </div>
           </div>
         </div>
@@ -247,4 +162,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default MobileHero;

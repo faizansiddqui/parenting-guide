@@ -6,44 +6,44 @@ import { useEffect, useRef, useState } from "react";
 const testimonials = [
   {
     id: "1",
-    title: "Transformed My Trading in 30 Days",
+    title: "Understanding My Child's Tantrums",
     description:
-      "I started with basic knowledge and zero experience in day trading. After following the strategies taught here, I've developed a consistent approach that actually works. The key was understanding risk management and technical analysis. Now I'm seeing profits I never thought possible as a beginner trader.",
-    videoId: "5RskS9g03Rc",
+      "I was struggling with my 4-year-old's daily meltdowns. Advisor Pravesh Kumar's techniques helped me understand the 'why' behind the behavior. Now, our home is much more peaceful, and I feel like a more confident parent.",
+    videoId: "5RskS9g03Rc", // Replace with actual parenting testimonial IDs
   },
   {
     id: "2",
-    title: "From Losses to Consistent Gains",
+    title: "Finally, A Screen-Free Routine",
     description:
-      "After years of losing money trying different approaches, I finally found what works. The systematic approach to forex trading changed everything for me. Learning proper entry and exit points, along with emotional discipline, made all the difference in my trading journey.",
+      "Screen addiction was ruining our family dinners. The step-by-step guidance on setting boundaries without being a 'villain' worked like magic. My kids are now playing outdoors and reading more than ever.",
     videoId: "_mqVRykdHjk",
   },
   {
     id: "3",
-    title: "Options Trading Success Story",
+    title: "Building Deep Connection",
     description:
-      "Options seemed complicated until I learned the right strategies. Now I understand how to use them for both income and protection. The weekly strategy sessions helped me grasp complex concepts and apply them in real market conditions with confidence.",
+      "I felt like my teenager was drifting away. The communication strategies taught in this program helped us reconnect. We've gone from constant arguments to having meaningful conversations every night.",
     videoId: "KGsxezObd0Q",
   },
   {
     id: "4",
-    title: "Building Wealth Through Smart Trading",
+    title: "Positive Discipline That Works",
     description:
-      "Swing trading fits perfectly with my lifestyle. I don't need to watch charts all day, and I'm still making steady profits. The community support and mentorship program provided insights that books and courses never did. Highly recommend this approach to anyone serious about trading.",
+      "I never liked yelling, but I didn't know another way. This program showed me how to use positive discipline. It's not about being soft; it's about being effective. Truly a life-changing experience for us.",
     videoId: "YX2ZQPaUkcI",
   },
   {
     id: "5",
-    title: "From Beginner to Confident Trader",
+    title: "Single Parent Support",
     description:
-      "I started with basic knowledge and zero experience in day trading. After following the strategies taught here, I've developed a consistent approach that actually works. The key was understanding risk management and technical analysis.",
+      "Being a single mom is tough, but having a roadmap made it manageable. The advice on emotional resilience for both me and my child was exactly what I needed to hear during a difficult transition.",
     videoId: "VctTjg9D1ZA",
   },
   {
     id: "6",
-    title: "The Systematic Approach",
+    title: "Better Sleep for Everyone",
     description:
-      "After years of losing money trying different approaches, I finally found what works. The systematic approach to forex trading changed everything for me. Learning proper entry and exit points is crucial.",
+      "Bedtime used to be a 2-hour battle. With the new routine and behavioral shifts suggested by Pravesh ji, my kids now go to bed happily. I finally have some 'me-time' in the evenings!",
     videoId: "umVpG2O83bI",
   },
 ];
@@ -55,7 +55,6 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
 
   useEffect(() => {
     const container = containerRef.current;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -64,32 +63,16 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
           }
         });
       },
-      {
-        threshold: 0.6,
-      },
+      { threshold: 0.6 }
     );
 
-    if (container) {
-      observer.observe(container);
-    }
-
-    return () => {
-      if (container) {
-        observer.unobserve(container);
-      }
-    };
+    if (container) observer.observe(container);
+    return () => { if (container) observer.unobserve(container); };
   }, [onBecomeActive]);
 
   const truncatedDescription = testimonial.description.slice(0, 100) + "...";
 
-  // YouTube Parameters Explanation:
-  // autoplay=1: Auto play on load
-  // mute=0: Try to play with Sound (Browser policy may block if user hasn't interacted)
-  // controls=0: Hide bottom player controls
-  // modestbranding=1: Remove big YouTube logo
-  // rel=0: Show videos from same channel only
-  // disablekb=1: Disable keyboard controls
-  const embedUrl = `https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&playsinline=1`;
+  const embedUrl = `https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&playsinline=1`;
   const thumbnailSrc = thumbnailFallback
     ? `https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`
     : `https://img.youtube.com/vi/${testimonial.videoId}/maxresdefault.jpg`;
@@ -97,14 +80,14 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
   return (
     <div
       ref={containerRef}
-      className={`group relative flex flex-col overflow-hidden rounded-xl bg-white transition-all duration-300 ${
+      className={`group relative flex flex-col overflow-hidden rounded-[1rem] bg-white transition-all duration-500 ${
         isActive
-          ? "ring-2 ring-[#75c13f] shadow-xl scale-[1.01] z-10"
-          : "border border-gray-100 shadow-sm opacity-90 hover:opacity-100"
+          ? "ring-4 ring-[#2a180a] border border-[#2a180a] shadow-md"
+          : "border border-[#2a180a] hover:shadow-md"
       }`}
     >
-      {/* Video Section - No overlay, No icons */}
-      <div className="relative w-full aspect-video bg-black">
+      {/* Video Section */}
+      <div className="relative w-full aspect-video bg-gray-100">
         {isActive ? (
           <iframe
             src={embedUrl}
@@ -112,40 +95,41 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
             className="absolute top-0 left-0 w-full h-full object-cover"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen={false} // Fullscreen off for cleaner look
-            loading="lazy"
+            allowFullScreen={false}
           />
         ) : (
-          <Image
-            src={thumbnailSrc}
-            alt={testimonial.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover opacity-80"
-            onError={() => setThumbnailFallback(true)}
-            unoptimized
-          />
+          <div className="relative w-full h-full cursor-pointer" onClick={onBecomeActive}>
+            <Image
+              src={thumbnailSrc}
+              alt={testimonial.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              onError={() => setThumbnailFallback(true)}
+              unoptimized
+            />
+            {/* Play Button Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center bg-brand-brown/10 backdrop-blur-[2px]">
+                <div className="w-16 h-16 bg-black/90 rounded-full flex items-center justify-center shadow-xl">
+                    <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-brand-green border-b-[10px] border-b-transparent ml-1"></div>
+                </div>
+            </div>
+          </div>
         )}
       </div>
 
-      {/* Text Section - Professional Typography */}
-      <div className="flex-1 p-5 md:p-6 flex flex-col justify-between">
-        <div>
-          <h3
-            className={`text-lg font-bold mb-2 leading-tight ${isActive ? "text-green-900" : "text-gray-800"}`}
-          >
-            {testimonial.title}
-          </h3>
+      {/* Content Section */}
+      <div className="flex-1 p-6 md:p-8 flex flex-col">
+        <h3 className={`text-xl font-black mb-3 leading-tight ${isActive ? "text-[#2a180a]" : "text-[#2a180a]"}`}>
+          {testimonial.title}
+        </h3>
 
-          <div className="text-sm text-gray-600 leading-relaxed font-normal">
-            <p>{isExpanded ? testimonial.description : truncatedDescription}</p>
-          </div>
+        <div className="text-gray-600 leading-relaxed text-sm font-medium">
+          <p>{isExpanded ? testimonial.description : truncatedDescription}</p>
         </div>
 
-        {/* Minimal Read More Link */}
-        <button
+         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="mt-3 self-start text-xs font-semibold uppercase tracking-wide text-[#75c13f] cursor-pointer hover:text-[#75c13f] transition-colors"
+          className="mt-3 self-start text-xs font-semibold uppercase tracking-wide text-[#2a180a] cursor-pointer hover:text-[#75c13f] transition-colors"
         >
           {isExpanded ? "Close" : "Read Full Story"}
         </button>
@@ -158,24 +142,23 @@ const VideoTestimonials = () => {
   const [activeVideoId, setActiveVideoId] = useState(null);
 
   return (
-    <section className="w-full bg-[#0f141b] py-20 px-4">
+    <section className="w-full bg-[#FDFBF7] py-10 px-4 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        {/* Clean Header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <span className="mb-4 inline-block rounded-full bg-[#75c13f]/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-[#75c13f] sm:px-4 sm:py-1.5">
+        {/* Header */}
+        <div className="text-center mb-10 max-w-3xl mx-auto">
+          <span className="mb-4 inline-flex items-center rounded-full bg-[#2d1a0a] px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.25em] text-white border border-brand-green/20">
             Success Stories
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Real Traders, Real Results
+          <h2 className="text-4xl md:text-6xl font-black text-[#2a180a] mb-6 tracking-tight">
+            Happy Parents, <br /><span className="text-brand-green italic font-serif">Brighter Futures</span>
           </h2>
-          <p className="text-lg text-slate-300 font-light">
-            Hear directly from our community members who have transformed their
-            trading journey.
+          <p className="text-lg text-gray-500 font-medium leading-relaxed">
+            Real families who have transformed their household dynamics through Advisor Pravesh Kumar’s proven guidance.
           </p>
         </div>
 
-        {/* Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {testimonials.map((testimonial) => (
             <VideoCard
               key={testimonial.id}

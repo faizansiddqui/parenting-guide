@@ -1,35 +1,48 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import {
+  CheckCircle2,
+  Users,
+  Calendar,
+  Clock,
+  ArrowLeft,
+  Layout,
+  MapPin,
+} from "lucide-react";
+
+const previewThankYouData = {
+  name: "Rahul Sharma",
+  email: "rahul@example.com",
+  phone: "9876543210",
+  state: "Delhi",
+  webinarDate: "14 Apr 2026",
+  webinarDay: "Sunday",
+  webinarTime: "08:00 PM",
+  webinarType: "Mindful Parenting Workshop",
+};
 
 export default function ThankYouPage() {
-  const router = useRouter();
   const [data, setData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Validate access and get data - pure function, no side effects
   const validateAccess = () => {
     if (typeof window === "undefined") return null;
-
     const saved = localStorage.getItem("thankyouData");
     if (!saved) return null;
-
     try {
       const parsedData = JSON.parse(saved);
-      if (!parsedData.name || !parsedData.email || !parsedData.phone || !parsedData.timestamp) {
+      if (!parsedData.name || !parsedData.email || !parsedData.phone)
         return null;
+
+      if (parsedData.timestamp) {
+        const submissionTime = new Date(parsedData.timestamp);
+        const currentTime = new Date();
+        if (currentTime - submissionTime >= 60 * 60 * 1000) {
+          localStorage.removeItem("thankyouData");
+          return null;
+        }
       }
-
-      const submissionTime = new Date(parsedData.timestamp);
-      const currentTime = new Date();
-      const timeDiff = currentTime - submissionTime;
-
-      if (timeDiff >= 60 * 60 * 1000) {
-        localStorage.removeItem("thankyouData");
-        return null;
-      }
-
       return parsedData;
     } catch (e) {
       return null;
@@ -37,210 +50,191 @@ export default function ThankYouPage() {
   };
 
   useEffect(() => {
-    // Only run validation logic, don't set state directly
     const userData = validateAccess();
+    const pageData = userData || previewThankYouData;
 
-    if (!userData) {
-      router.push("/");
-      return;
-    }
-
-    // Set state outside the immediate effect execution
     setTimeout(() => {
-      setData(userData);
+      setData(pageData);
       setIsVisible(true);
-    }, 0);
+    }, 100);
 
-    // Setup cleanup timer
     const timer = setTimeout(() => {
       localStorage.removeItem("thankyouData");
     }, 10000);
 
-    // Cleanup function
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [router]);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // Show loading state while checking or if no data
   if (!data) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#121212] text-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-[#A3E635] border-solid"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7]">
+        <div className="w-12 h-12 border-4 border-[#3B5E2B]/20 border-t-[#3B5E2B] rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white flex items-center justify-center p-4 sm:p-6 lg:p-8">
-      {/* Background Glows for modern look */}
-      <div className="fixed top-0 left-1/4 w-64 h-64 bg-[#A3E635]/10 blur-[100px] rounded-full animate-pulse-slow"></div>
-      <div className="fixed bottom-0 right-1/4 w-64 h-64 bg-[#A3E635]/10 blur-[100px] rounded-full animate-pulse-slow delay-700"></div>
-      <div className="fixed top-1/3 right-[-80px] w-40 h-40 border border-[#75c13f]/20 rounded-full animate-orbit"></div>
-      <div className="fixed bottom-16 left-[-60px] w-28 h-28 border border-[#5da432]/20 rounded-full animate-orbit delay-700"></div>
+    <div className="min-h-screen bg-[#FDFBF7] text-[#4A2B12] flex items-center justify-center p-4 sm:p-8 overflow-hidden relative">
+      {/* --- Aesthetic Background --- */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#3B5E2B_0.8px,transparent_0.8px)] [background-size:40px_40px] opacity-[0.05]" />
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#3B5E2B]/5 rounded-full blur-[120px]" />
+        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-[#D99B38]/5 rounded-full blur-[120px]" />
+      </div>
 
       <div
-        className={`relative bg-[#1A1A1A] border border-white/10 backdrop-blur-md rounded-[2rem] shadow-2xl p-6 sm:p-10 max-w-xl w-full overflow-hidden transition-all duration-700 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        className={`relative z-10 w-full max-w-3xl transition-all duration-1000 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
         }`}
       >
-        <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-[#75c13f]/30" />
-        <div className="pointer-events-none absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-[#75c13f]/20 to-transparent blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-24 w-56 h-56 bg-gradient-to-tr from-[#5da432]/20 to-transparent blur-3xl" />
-        {/* Success Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-[#75c13f]/20 to-[#5da432]/20 rounded-full mb-4 animate-bounce-slow">
-            <span className="text-4xl">✅</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-2">
-            REGISTRATION <span className="bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent">SUCCESSFUL!</span>
-          </h1>
-          <p className="text-gray-400 text-sm sm:text-base">
-            Welcome to the community of successful traders.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Details Section */}
-          <div className="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-[#75c13f]/40 transition-colors">
-            <h2 className="bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent font-bold text-xs uppercase tracking-widest mb-4">
-              Your Profile
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase font-bold">
-                  Full Name
-                </p>
-                <p className="text-sm font-semibold truncate">{data.name}</p>
+        <div className="bg-white rounded-[3rem] shadow-[0_40px_100px_rgba(74,43,18,0.07)] border border-white overflow-hidden">
+          {/* Success Banner */}
+          <div className="bg-gradient-to-r from-[#3B5E2B] to-[#4D7A38] p-8 sm:p-12 text-center text-white relative">
+            <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]"></div>
+            <div className="relative z-10">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-lg rounded-full mb-6 animate-bounce-slow">
+                <CheckCircle2 className="w-10 h-10 text-white" />
               </div>
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase font-bold">
-                  Email Address
-                </p>
-                <p className="text-sm font-semibold truncate">{data.email}</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase font-bold">
-                  Contact No.
-                </p>
-                <p className="text-sm font-semibold">+91 {data.phone}</p>
-              </div>
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tight mb-3">
+                Registration Success!
+              </h1>
+              <p className="text-white/80 font-medium max-w-md mx-auto leading-relaxed">
+                Congratulations! Aapne apne bache ke behtar bhavishya ki taraf
+                pehla kadam badha liya hai.
+              </p>
             </div>
           </div>
 
-          {/* Instructions Section */}
-          <div className="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-[#5da432]/40 transition-colors">
-            <h3 className="bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent font-bold text-xs uppercase tracking-widest mb-4">
-              Next Steps
-            </h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex gap-2">
-                <span className="bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent font-bold">01.</span>
-                <span className="text-gray-300">
-                  Check your{" "}
-                  <span className="text-white font-medium">WhatsApp</span> for
-                  the updates.
-                </span>
-              </li>
-              <li className="flex gap-2">
-                <span className="bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent font-bold">02.</span>
-                <span className="text-gray-300">
-                  Our team will contact you shortly.
-                </span>
-              </li>
-              <li className="flex gap-2">
-                <span className="bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent font-bold">03.</span>
-                <span className="text-gray-300">
-                  Join 10 mins early for the Live Session.
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
+          <div className="p-8 sm:p-12">
+            <div className="grid gap-8 md:grid-cols-2">
+              {/* Profile Details */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="h-px flex-1 bg-stone-100"></div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B5E2B]">
+                    Attendee Details
+                  </span>
+                  <div className="h-px flex-1 bg-stone-100"></div>
+                </div>
 
-        {(data.webinarDate || data.webinarDay || data.webinarTime) && (
-          <div className="mt-6 bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-[#75c13f]/40 transition-colors">
-            <h3 className="bg-gradient-to-r from-[#75c13f] to-[#5da432] bg-clip-text text-transparent font-bold text-xs uppercase tracking-widest mb-4">
-              Webinar Schedule
-            </h3>
-            <div className="grid gap-4 sm:grid-cols-3 text-sm">
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase font-bold">Date</p>
-                <p className="text-sm font-semibold">{data.webinarDate || "-"}</p>
+                <div className="flex items-start gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100">
+                  <div className="bg-white p-2 rounded-xl shadow-sm">
+                    <Users className="w-5 h-5 text-[#3B5E2B]" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                      Parent Name
+                    </p>
+                    <p className="text-base font-bold text-[#4A2B12]">
+                      {data.name}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100">
+                  <div className="bg-white p-2 rounded-xl shadow-sm">
+                    <MapPin className="w-5 h-5 text-[#D99B38]" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                      Location / State
+                    </p>
+                    <p className="text-base font-bold text-[#4A2B12]">
+                      {data.state || "India"}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase font-bold">Day</p>
-                <p className="text-sm font-semibold">{data.webinarDay || "-"}</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase font-bold">Time</p>
-                <p className="text-sm font-semibold">{data.webinarTime || "-"}</p>
+
+              {/* Webinar Schedule Card */}
+              <div className="bg-[#FDFBF7] rounded-[2rem] p-6 border-2 border-dashed border-[#3B5E2B]/20 relative">
+                <div className="absolute -top-3 left-6 bg-[#3B5E2B] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+                  Event Schedule
+                </div>
+                <div className="space-y-5">
+                  <div className="flex items-center gap-4">
+                    <Calendar className="w-6 h-6 text-[#3B5E2B]" />
+                    <div>
+                      <p className="text-sm font-bold text-[#4A2B12]">
+                        {data.webinarDate}
+                      </p>
+                      <p className="text-xs text-stone-400 font-medium">
+                        {data.webinarDay}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Clock className="w-6 h-6 text-[#3B5E2B]" />
+                    <div>
+                      <p className="text-sm font-bold text-[#4A2B12]">
+                        {data.webinarTime}
+                      </p>
+                      <p className="text-xs text-stone-400 font-medium">
+                        IST Timezone
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Layout className="w-6 h-6 text-[#3B5E2B]" />
+                    <div>
+                      <p className="text-sm font-bold text-[#4A2B12]">
+                        {data.webinarType}
+                      </p>
+                      <p className="text-xs text-stone-400 font-medium">
+                        LIVE Interactive Workshop
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        )}
 
-        {/* Action Button */}
-        <div className="mt-8">
-          <a
-            href="https://chat.whatsapp.com/HjW5OInq33h3cOzDZv7Dln"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-4 mb-4 bg-gradient-to-r from-[#75c13f] to-[#5da432] hover:from-[#75c13f] hover:to-[#5da432] text-gray-900 font-black uppercase tracking-tighter text-center block rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(117,193,63,0.3)] hover:shadow-[0_0_30px_rgba(117,193,63,0.5)] active:scale-95 hover:-translate-y-0.5"
-          >
-            Join WhatsApp Community
-          </a>
-          <Link
-            href="/"
-            className="w-full py-4 bg-gradient-to-r from-[#75c13f] to-[#5da432] hover:from-[#75c13f] hover:to-[#5da432] text-gray-900 font-black uppercase tracking-tighter text-center block rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(117,193,63,0.3)] hover:shadow-[0_0_30px_rgba(117,193,63,0.5)] active:scale-95 hover:-translate-y-0.5"
-          >
-            Go to Home
-          </Link>
-          <p className="text-center text-[10px] text-gray-600 mt-4 uppercase font-bold tracking-widest">
-            Mahhabali Education • India&apos;s No.1 Price Behavior Training
-          </p>
+            {/* CTA Section */}
+            <div className="mt-12 space-y-4">
+              <a
+                href="https://chat.whatsapp.com/HjW5OInq33h3cOzDZv7Dln"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group w-full px-5 py-5  bg-[#25D366] hover:bg-[#1eb956] text-white font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 rounded-2xl transition-all duration-500 shadow-[0_15px_30px_rgba(37,211,102,0.2)] hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] hover:-translate-y-1"
+              >
+                Join WhatsApp Community
+                <div className="bg-white/20 p-1 rounded-full group-hover:rotate-12 transition-transform">
+                  <Users className="w-4 h-4" />
+                </div>
+              </a>
+
+              <Link
+                href="/"
+                className="w-full py-5 bg-white text-stone-400 hover:text-[#4A2B12] font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 rounded-2xl border border-stone-100 hover:border-stone-200 transition-all duration-300"
+              >
+                <ArrowLeft className="w-4 h-4" /> Go back to Home
+              </Link>
+            </div>
+
+            {/* Footer Branding */}
+            <div className="mt-10 pt-8 border-t border-stone-50 text-center">
+              <p className="text-[10px] text-stone-300 font-black uppercase tracking-[0.3em]">
+                Empowered By Pravesh Parenting • 2026
+              </p>
+            </div>
+          </div>
         </div>
-        <style jsx>{`
-          @keyframes orbit {
-            0% {
-              transform: translateY(0) rotate(0deg);
-            }
-            50% {
-              transform: translateY(-12px) rotate(8deg);
-            }
-            100% {
-              transform: translateY(0) rotate(0deg);
-            }
-          }
-          @keyframes pulseSlow {
-            0%,
-            100% {
-              opacity: 0.6;
-            }
-            50% {
-              opacity: 1;
-            }
-          }
-          @keyframes bounceSlow {
-            0%,
-            100% {
-              transform: translateY(0);
-            }
-            50% {
-              transform: translateY(-6px);
-            }
-          }
-          .animate-orbit {
-            animation: orbit 6s ease-in-out infinite;
-          }
-          .animate-pulse-slow {
-            animation: pulseSlow 5s ease-in-out infinite;
-          }
-          .animate-bounce-slow {
-            animation: bounceSlow 2.4s ease-in-out infinite;
-          }
-        `}</style>
       </div>
+
+      <style jsx>{`
+        @keyframes bounceSlow {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        .animate-bounce-slow {
+          animation: bounceSlow 3s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }

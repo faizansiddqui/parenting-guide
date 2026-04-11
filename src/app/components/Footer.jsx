@@ -1,44 +1,67 @@
 import React from 'react';
-import { TrendingUp, Mail, Phone, MapPin, ArrowRight, Shield, Award, Users } from 'lucide-react';
+import { Heart, Mail, Phone, MapPin, ArrowRight, Shield, Award, Users } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#0a0a0a] text-white overflow-hidden mb-30 sm:mb-14">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#0a0a0a] to-[#0a0a0a]"></div>
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#C5FF00]/5 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#C5FF00]/3 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1000ms' }}></div>
+    // Background ko light rakha hai (#FDFBF7 - Cream White)
+    <footer className="relative bg-[#FDFBF7] text-[#4A2B12] overflow-hidden mb-20 sm:mb-20 border-t border-stone-200">
+      
+      {/* Background Subtle Effects - Light & Airy */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Soft Green Glow - Top Right */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#3B5E2B]/5 rounded-full blur-[120px]"></div>
+        {/* Soft Brown Glow - Bottom Left */}
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#D99B38]/5 rounded-full blur-[120px]"></div>
       </div>
 
-      <div className="relative z-10 border-t border-[#C5FF00]/10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div className="relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
           
-       
-       
-
-          {/* Bottom Bar */}
-          <div className="pt-8 border-t border-[#C5FF00]/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-            <div className="flex items-center gap-2 text-gray-400">
-              <Users className="w-4 h-4 text-[#75c13f]" />
-              <span>Join 25K+ Happy Traders</span>
+          {/* Main Footer Bottom Bar */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
+            
+            {/* Social Proof Section */}
+            <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow-sm border border-stone-100">
+              <div className="bg-[#3B5E2B]/10 p-1.5 rounded-full">
+                <Users className="w-4 h-4 text-[#3B5E2B]" />
+              </div>
+              <span className="font-bold text-stone-600 tracking-tight">
+                Join 25K+ Mindful Parents
+              </span>
             </div>
-            <p className="text-gray-400">
-              © 2025 <span className="text-[#75c13f] font-semibold">Mahhabali Education</span>. All rights reserved.
-            </p>
-            <div className="flex items-center gap-4 text-gray-400">
-              <Link href="/privacy-policy" className="hover:text-[#C5FF00] transition-colors">Privacy Policy 
+
+            {/* Copyright Section */}
+            <div className="text-center">
+              <p className="text-stone-500 font-medium">
+                © 2026 <span className="text-[#4A2B12] font-black uppercase tracking-wider">Pravesh Parenting</span>
+              </p>
+              <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.2em] mt-1">
+                Empowering Families Daily
+              </p>
+            </div>
+
+            {/* Legal Links */}
+            <div className="flex items-center gap-8">
+              <Link 
+                href="/privacy-policy" 
+                className="text-stone-500 hover:text-[#3B5E2B] font-bold transition-all duration-300 hover:translate-y-[-1px]"
+              >
+                Privacy Policy
               </Link>
-              <Link href="/terms-of-service" className="hover:text-[#C5FF00] transition-colors">Terms of Service 
+              <Link 
+                href="/terms-of-service" 
+                className="text-stone-500 hover:text-[#3B5E2B] font-bold transition-all duration-300 hover:translate-y-[-1px]"
+              >
+                Terms of Service
               </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Gradient Line */}
-      <div className="h-px bg-gradient-to-r from-transparent via-[#C5FF00]/30 to-transparent"></div>
+      {/* Decorative Bottom Line - Very Subtle Green */}
+      <div className="h-1 bg-gradient-to-r from-transparent via-[#3B5E2B]/20 to-transparent opacity-30"></div>
     </footer>
   );
 }
