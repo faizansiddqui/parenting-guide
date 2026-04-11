@@ -88,7 +88,7 @@ const MobileHero = () => {
             {/* Soft background shape behind image */}
             <div className="absolute inset-0 bg-brand-green/5 rounded-[2.5rem] scale-105 border border-brand-green/10" />
 
-            <div className="relative h-full w-full rounded-[2rem] overflow-hidden border-4 border-white shadow-2xl">
+            <div className="relative h-full w-full rounded-[2rem] overflow-hidden border-4 border-white">
               <img
                 src="/profile.jpg"
                 alt="Advisor Pravesh Gupta"

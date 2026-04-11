@@ -41,7 +41,7 @@ const HeroDesktop = () => {
         <div className="backdrop-blur-xl bg-white/70 border-b border-brand-brown/5 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl overflow-hidden ring-1 ring-brand-green/10 shadow-xl shadow-brand-green/5 bg-white flex items-center justify-center p-1">
+              <div className="w-12 h-12 rounded-xl overflow-hidden ring-1 ring-brand-green/10 bg-white flex items-center justify-center p-1">
                 <img
                   src="/logo.png"
                   alt="Logo"

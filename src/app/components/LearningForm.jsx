@@ -380,7 +380,7 @@ export default function LearningForm({ showStickyBar = true }) {
       </div>
 
       {showStickyBar && (
-        <div className="fixed bottom-0 left-0 w-full z-[100] bg-white/90 backdrop-blur-xl border-t border-stone-100 shadow-[0_-15px_40px_rgba(74,43,18,0.05)]">
+        <div className="fixed bottom-0 left-0 w-full z-[100] bg-white/80 backdrop-blur-xl border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.4)]">
           <div className="max-w-7xl mx-auto px-2 md:px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="bg-red-50 p-2 rounded-xl">
