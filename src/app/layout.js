@@ -5,46 +5,46 @@ import "./globals.css";
 
 export const metadata = {
 
-  title: "Mahabali Price Action | Learn Professional Price Action Trading",
+  title: "Mindful Parenting Guide | Expert Parenting Workshop & Training",
 
   description:
-    "Mahabali Price Action is your ultimate resource to master price action trading. Learn chart reading, candlestick patterns, supply-demand, and real-world trading psychology from experts.",
+    "Master the art of mindful parenting with our expert-led workshop. Learn child psychology, positive parenting strategies, and nurture your child's development with proven techniques from certified advisors.",
 
   keywords: [
-    "Mahabali Price Action",
-    "price action trading",
-    "learn trading online",
-    "technical analysis",
-    "trading education",
-    "candlestick patterns",
-    "forex trading course",
-    "stock market training",
-    "supply and demand trading",
-    "price action strategy",
+    "parenting guide",
+    "mindful parenting",
+    "positive parenting",
+    "child psychology",
+    "parenting workshop",
+    "parenting education",
+    "child development",
+    "parenting tips",
+    "parenting advice",
+    "expert parenting mentor",
   ],
 
-  authors: [{ name: "Mahabali Price Action" }],
+  authors: [{ name: "Parenting Guide Academy" }],
   openGraph: {
-    title: "Mahabali Price Action | Learn Professional Price Action Trading",
+    title: "Mindful Parenting Guide | Expert Parenting Workshop & Training",
     description:
-      "Master the art of price action trading with Mahabali Price Action. Learn real-world strategies for stock, forex, and crypto markets.",
-    url: "https://mahabalipriceaction.com",
-    siteName: "Mahabali Price Action",
+      "Master the art of mindful parenting with certified expert advisors. Learn proven child psychology and positive parenting strategies to nurture your child's future.",
+    url: "https://parentingguide.in",
+    siteName: "Parenting Guide Academy",
     images: [
       {
-        url: "/MahaBaliLogo.png",
+        url: "/logo.png",
         width: 800,
         height: 600,
-        alt: "Mahabali Price Action Logo",
+        alt: "Parenting Guide Academy Logo",
       },
     ],
     locale: "en_US",
     type: "website",
   },
   icons: {
-    icon: "/MahaBaliLogo.png",
-    shortcut: "/MahaBaliLogo.png",
-    apple: "/MahaBaliLogo.png",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/MahaBaliLogo.png" />
+        <link rel="icon" href="/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="google-site-verification"
