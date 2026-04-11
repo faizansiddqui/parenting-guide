@@ -176,7 +176,7 @@ export default function LearningForm({ showStickyBar = true }) {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#FDFBF7] flex items-center justify-center py-12 px-4 pb-5 md:pb-10 overflow-hidden">
+    <div className="relative min-h-screen bg-[#FDFBF7] flex items-center justify-center py-12 px-4 pb-[calc(5rem+env(safe-area-inset-bottom,0px))] md:pb-[calc(7rem+env(safe-area-inset-bottom,0px))] overflow-hidden">
       {/* --- Earthy Background Design --- */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#3B5E2B_0.5px,transparent_0.5px)] [background-size:32px_32px] opacity-[0.1]" />
@@ -380,7 +380,10 @@ export default function LearningForm({ showStickyBar = true }) {
       </div>
 
       {showStickyBar && (
-        <div className="fixed bottom-0 left-0 w-full z-[100] bg-white/80 backdrop-blur-xl border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.4)]">
+        <div
+          className="fixed inset-x-0 z-[100] bg-white/80 backdrop-blur-xl border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.4)]"
+          style={{ bottom: "env(safe-area-inset-bottom, 0px)", paddingBottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
+        >
           <div className="max-w-7xl mx-auto px-2 md:px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="bg-red-50 p-2 rounded-xl">
