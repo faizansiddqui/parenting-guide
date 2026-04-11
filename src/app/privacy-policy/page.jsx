@@ -1,8 +1,8 @@
 import React from "react";
 
 export const metadata = {
-  title: "Privacy Policy | Mahhabali Price Action",
-  description: "Privacy Policy of Mahhabali Price Action / Mahhabali Trades",
+  title: "Privacy Policy | Parenting Guide Academy",
+  description: "Privacy Policy of Parenting Guide Academy - Expert Parenting Workshop",
 };
 
 const Page = () => {
@@ -15,10 +15,10 @@ const Page = () => {
             Privacy Policy
           </h1>
           <p className="mt-2 text-sm sm:text-base text-gray-600">
-            Effective Date: <span className="font-medium">22 January 2026</span>
+            Effective Date: <span className="font-medium">11 April 2026</span>
           </p>
           <p className="mt-1 text-sm sm:text-base text-gray-600 break-all">
-            Website: <span className="font-medium">https://mahabalipriceaction.com/</span>
+            Website: <span className="font-medium">https://parentingguide.in</span>
           </p>
         </div>
       </header>
@@ -28,9 +28,9 @@ const Page = () => {
         <div className="rounded-2xl border bg-white p-5 sm:p-8">
           <PolicyBlock title="1) Introduction">
             <p>
-              Mahhabali Price Action / Mahhabali Trades (“we”, “our”, “us”) respects your privacy.
+              Parenting Guide Academy (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects your privacy and is committed to protecting your personal information.
               This Privacy Policy explains how we collect, use, store, and protect your information
-              when you visit and use our website, services, and courses.
+              when you visit and use our website, workshops, and parenting guidance services.
             </p>
           </PolicyBlock>
 
@@ -38,27 +38,27 @@ const Page = () => {
             <ul className="list-disc pl-5 space-y-2">
               <li>
                 <span className="font-semibold">Personal Information:</span> Name, Email address,
-                Phone number, City/State (if provided), and messages sent via contact forms.
+                Phone number, State/Location (for workshop targeting), and messages sent via contact forms.
               </li>
               <li>
-                <span className="font-semibold">Course/Payment Information:</span> Enrollment
-                details and payment transaction references.
+                <span className="font-semibold">Workshop/Payment Information:</span> Registration
+                details, workshop enrollment, and payment transaction references.
                 <span className="font-medium"> We do not store</span> your card/UPI/bank details.
               </li>
               <li>
                 <span className="font-semibold">Technical Information:</span> IP address, browser/device
-                type, pages visited, session duration, cookies/analytics.
+                type, pages visited, session duration, cookies/analytics, WhatsApp communication logs.
               </li>
             </ul>
           </PolicyBlock>
 
           <PolicyBlock title="3) How We Use Your Information">
             <ul className="list-disc pl-5 space-y-2">
-              <li>To provide access to courses and services.</li>
-              <li>To respond to inquiries and provide support.</li>
-              <li>To send important updates and announcements.</li>
+              <li>To provide access to workshops and parenting guidance services.</li>
+              <li>To respond to inquiries and provide personalized parenting support.</li>
+              <li>To send important updates, workshop dates, and community announcements.</li>
               <li>To improve website performance and user experience.</li>
-              <li>To prevent fraud, spam, and misuse.</li>
+              <li>To prevent fraud, spam, and misuse of our platform.</li>
             </ul>
           </PolicyBlock>
 
@@ -74,16 +74,16 @@ const Page = () => {
               We <span className="font-semibold">do not sell, rent, or trade</span> your personal information.
             </p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>Payment processors (to complete transactions).</li>
-              <li>Email/SMS service providers (to send important communication).</li>
+              <li>Payment processors (to complete workshop registrations).</li>
+              <li>Email/SMS/WhatsApp service providers (to send important communication).</li>
               <li>Government/legal authorities (if required by law).</li>
-              <li>Security reasons (to protect users/platform).</li>
+              <li>Security reasons (to protect users and platform).</li>
             </ul>
           </PolicyBlock>
 
           <PolicyBlock title="6) Third-Party Links">
             <p>
-              Our website may contain links to third-party websites (e.g., YouTube, Instagram, payment gateways).
+              Our website may contain links to third-party websites (e.g., YouTube, WhatsApp, payment platforms).
               We are not responsible for their privacy practices. Please review their privacy policies separately.
             </p>
           </PolicyBlock>
@@ -95,18 +95,18 @@ const Page = () => {
             </p>
           </PolicyBlock>
 
-          <PolicyBlock title="8) Children’s Privacy">
+          <PolicyBlock title="8) Children's Privacy">
             <p>
-              Our services are intended for individuals aged{" "}
-              <span className="font-semibold">18 years or older</span>. We do not knowingly collect
-              information from children under 18.
+              Our services are targeted at parents and guardians aged <span className="font-semibold">18 years or older</span>. 
+              While we may reference children&apos;s information in the context of parenting guidance, we collect minimal information about children 
+              and never for marketing purposes.
             </p>
           </PolicyBlock>
 
           <PolicyBlock title="9) Your Rights">
             <ul className="list-disc pl-5 space-y-2">
               <li>Request access, correction, or deletion of your data (where applicable).</li>
-              <li>Unsubscribe from promotional communication anytime.</li>
+              <li>Unsubscribe from promotional communication anytime via WhatsApp or email.</li>
             </ul>
           </PolicyBlock>
 
@@ -120,13 +120,13 @@ const Page = () => {
           <PolicyBlock title="11) Contact Us">
             <div className="rounded-xl border bg-gray-50 p-4">
               <p className="text-sm sm:text-base">
-                <span className="font-semibold">Phone:</span> +91 9216675329
+                <span className="font-semibold">WhatsApp:</span> Join our WhatsApp community for support
               </p>
               <p className="text-sm sm:text-base break-all mt-1">
-                <span className="font-semibold">Email:</span> support@mahabalipriceaction.com
+                <span className="font-semibold">Email:</span> support@parentingguide.com
               </p>
               <p className="text-xs text-gray-500 mt-3">
-                Note: Replace phone/email if needed.
+                For privacy concerns, contact us via email within 48 hours.
               </p>
             </div>
           </PolicyBlock>
@@ -137,8 +137,6 @@ const Page = () => {
 };
 
 export default Page;
-
-/* ---------------- Helper Components ---------------- */
 
 function PolicyBlock({ title, children }) {
   return (

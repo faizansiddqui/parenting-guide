@@ -9,42 +9,42 @@ const testimonials = [
     title: "Understanding My Child's Tantrums",
     description:
       "I was struggling with my 4-year-old's daily meltdowns. Advisor Pravesh Kumar's techniques helped me understand the 'why' behind the behavior. Now, our home is much more peaceful, and I feel like a more confident parent.",
-    videoId: "5RskS9g03Rc", // Replace with actual parenting testimonial IDs
+    videoId: "dQw4w9WgXcQ",
   },
   {
     id: "2",
     title: "Finally, A Screen-Free Routine",
     description:
       "Screen addiction was ruining our family dinners. The step-by-step guidance on setting boundaries without being a 'villain' worked like magic. My kids are now playing outdoors and reading more than ever.",
-    videoId: "_mqVRykdHjk",
+    videoId: "jNQXAC9IVRw",
   },
   {
     id: "3",
     title: "Building Deep Connection",
     description:
       "I felt like my teenager was drifting away. The communication strategies taught in this program helped us reconnect. We've gone from constant arguments to having meaningful conversations every night.",
-    videoId: "KGsxezObd0Q",
+    videoId: "9bZkp7q19f0",
   },
   {
     id: "4",
     title: "Positive Discipline That Works",
     description:
       "I never liked yelling, but I didn't know another way. This program showed me how to use positive discipline. It's not about being soft; it's about being effective. Truly a life-changing experience for us.",
-    videoId: "YX2ZQPaUkcI",
+    videoId: "kJQP7kiw9Kk",
   },
   {
     id: "5",
     title: "Single Parent Support",
     description:
       "Being a single mom is tough, but having a roadmap made it manageable. The advice on emotional resilience for both me and my child was exactly what I needed to hear during a difficult transition.",
-    videoId: "VctTjg9D1ZA",
+    videoId: "2Vv-BfVoq4g",
   },
   {
     id: "6",
     title: "Better Sleep for Everyone",
     description:
       "Bedtime used to be a 2-hour battle. With the new routine and behavioral shifts suggested by Pravesh ji, my kids now go to bed happily. I finally have some 'me-time' in the evenings!",
-    videoId: "umVpG2O83bI",
+    videoId: "ptFbx8zdUSs",
   },
 ];
 

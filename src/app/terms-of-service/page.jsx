@@ -1,8 +1,8 @@
 import React from "react";
 
 export const metadata = {
-  title: "Terms of Service | Mahhabali Price Action",
-  description: "Terms of Service of Mahhabali Price Action / Mahhabali Trades",
+  title: "Terms of Service | Parenting Guide Academy",
+  description: "Terms of Service of Parenting Guide Academy - Expert Parenting Workshop",
 };
 
 const Page = () => {
@@ -15,10 +15,10 @@ const Page = () => {
             Terms of Service
           </h1>
           <p className="mt-2 text-sm sm:text-base text-gray-600">
-            Effective Date: <span className="font-medium">22 January 2026</span>
+            Effective Date: <span className="font-medium">11 April 2026</span>
           </p>
           <p className="mt-1 text-sm sm:text-base text-gray-600 break-all">
-            Website: <span className="font-medium">https://mahabalipriceaction.com/</span>
+            Website: <span className="font-medium">https://parentingguide.in</span>
           </p>
         </div>
       </header>
@@ -28,113 +28,111 @@ const Page = () => {
         <div className="rounded-2xl border bg-white p-5 sm:p-8">
           <TermsBlock title="1) Acceptance of Terms">
             <p>
-              By accessing this website and purchasing/using our courses or services, you agree to be bound by these
+              By accessing this website and registering for our workshops or using our parenting guidance services, you agree to be bound by these
               Terms of Service. If you do not agree, please do not use our website.
             </p>
           </TermsBlock>
 
           <TermsBlock title="2) Services Provided">
             <p>
-              Mahhabali Price Action / Mahhabali Trades provides trading education and learning services including
-              price action training, market structure education, training videos, PDFs, mentorship/community support
-              (if available).
+              Parenting Guide Academy provides expert parenting education and guidance services including
+              mindful parenting workshops, child psychology insights, evidence-based parenting techniques, training videos, resources, and community support
+              through WhatsApp groups and mentorship programs.
             </p>
           </TermsBlock>
 
-          <TermsBlock title="3) Important Disclaimer (No Investment Advice)">
+          <TermsBlock title="3) Important Disclaimer (Educational Guidance Only)">
             <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4">
               <p className="font-semibold text-gray-900">
-                We are not SEBI registered investment advisors.
+                Our content is for educational and informational purposes only.
               </p>
               <p className="mt-2 text-sm sm:text-base text-gray-700">
-                All content is for educational purposes only and should not be considered financial/investment advice.
-                Trading involves risk and you may lose part or all of your capital. You are solely responsible for your
-                trading and investment decisions.
+                We are not licensed therapists, pediatricians, or medical professionals. For specific medical, psychological, or behavioral concerns about your child,
+                please consult with qualified healthcare professionals.
               </p>
             </div>
           </TermsBlock>
 
-          <TermsBlock title="4) Eligibility">
+          <TermsBlock title="4) Parental Responsibility">
+            <p>
+              Parents/guardians are solely responsible for their parenting decisions and the well-being of their children. 
+              Our workshops and guidance are supplementary resources and do not replace professional medical, psychological, or legal advice.
+            </p>
+          </TermsBlock>
+
+          <TermsBlock title="5) User Conduct">
+            <p className="mb-3">You agree not to:</p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>You must be at least <span className="font-semibold">18 years old</span>.</li>
-              <li>You must provide accurate information during registration and purchase.</li>
+              <li>Share abusive, discriminatory, or inappropriate content in our community groups.</li>
+              <li>Sell, distribute, or resell our course materials without permission.</li>
+              <li>Share personal information of other parents without their consent.</li>
+              <li>Violate any laws or regulations.</li>
             </ul>
           </TermsBlock>
 
-          <TermsBlock title="5) User Accounts & Course Access">
+          <TermsBlock title="6) Intellectual Property">
+            <p>
+              All content, materials, and resources provided by Parenting Guide Academy are protected by copyright
+              and intellectual property laws. You may use them for personal, non-commercial purposes only.
+            </p>
+          </TermsBlock>
+
+          <TermsBlock title="7) Limitation of Liability">
+            <p>
+              Parenting Guide Academy shall not be liable for any indirect, incidental, consequential, or punitive damages
+              arising from your use of our website or services. Our total liability shall not exceed the amount paid for services.
+            </p>
+          </TermsBlock>
+
+          <TermsBlock title="8) Payment & Refunds">
+            <p className="mb-3">
+              Workshop registrations are non-refundable after enrollment unless there is a specific cancellation within the stated period.
+            </p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>Course access is personal and non-transferable.</li>
-              <li>You must not share your login details with anyone.</li>
-              <li>
-                Misuse, piracy, unauthorized sharing, or reselling may result in termination of access
-                without refund.
-              </li>
+              <li>Refund requests must be made within 7 days of registration.</li>
+              <li>Payment disputes should be reported within 30 days.</li>
+              <li>We accept various payment methods for your convenience.</li>
             </ul>
           </TermsBlock>
 
-          <TermsBlock title="6) Payments">
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Course fees will be displayed on the website.</li>
-              <li>Access is granted only after successful payment confirmation.</li>
-              <li>Payments are processed through trusted third-party payment gateways.</li>
-            </ul>
-          </TermsBlock>
-
-          <TermsBlock title="7) Refund Policy">
+          <TermsBlock title="9) Termination">
             <p>
-              Refund eligibility (if applicable) depends on the refund terms mentioned on the course page or refund policy page.
-            </p>
-            <p className="mt-2 text-sm sm:text-base text-gray-700">
-              <span className="font-semibold">Note:</span> For digital products, once access is delivered, refunds are generally not possible.
+              We reserve the right to terminate access to our services if you violate these Terms of Service,
+              engage in inappropriate behavior, or pose a risk to our community.
             </p>
           </TermsBlock>
 
-          <TermsBlock title="8) Intellectual Property Rights">
+          <TermsBlock title="10) Governing Law">
             <p>
-              All website content and course materials including videos, lessons, PDFs, logos, branding, text, graphics,
-              and designs are the intellectual property of Mahhabali Price Action / Mahhabali Trades.
-            </p>
-            <p className="mt-2">
-              You may not copy, record, resell, redistribute, re-upload, or publish any content without written permission.
+              These Terms of Service shall be governed by the laws of India. Any disputes shall be resolved
+              under the jurisdiction of courts in India.
             </p>
           </TermsBlock>
 
-          <TermsBlock title="9) Prohibited Activities">
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Hacking, malware injection, or disrupting website/services.</li>
-              <li>Fraudulent transactions or spamming.</li>
-              <li>Unauthorized reselling or sharing of course content.</li>
-              <li>Abusive behavior towards staff/community members.</li>
-            </ul>
-          </TermsBlock>
-
-          <TermsBlock title="10) Limitation of Liability">
+          <TermsBlock title="11) Third-Party Links & Content">
             <p>
-              We are not responsible for any trading/investment losses, decisions taken based on course content, technical issues,
-              website downtime, or third-party gateway errors.
+              Our website may contain links to third-party websites and content. We are not responsible for their accuracy,
+              content, or practices. Access third-party sites at your own risk.
             </p>
           </TermsBlock>
 
-          <TermsBlock title="11) Termination">
+          <TermsBlock title="12) Modifications to Terms">
             <p>
-              We reserve the right to suspend or terminate access without notice if Terms are violated, suspicious activity is detected,
-              or piracy is found.
-            </p>
-          </TermsBlock>
-
-          <TermsBlock title="12) Governing Law">
-            <p>
-              These Terms are governed by the laws of <span className="font-semibold">India</span>. Any disputes shall be subject to Indian jurisdiction.
+              We may update these Terms of Service anytime. Continued use of our services after updates constitutes
+              acceptance of the new terms.
             </p>
           </TermsBlock>
 
           <TermsBlock title="13) Contact Us">
             <div className="rounded-xl border bg-gray-50 p-4">
               <p className="text-sm sm:text-base">
-                <span className="font-semibold">Phone:</span> +91 9216675329
+                <span className="font-semibold">WhatsApp Community:</span> Join for workshop updates and support
               </p>
               <p className="text-sm sm:text-base break-all mt-1">
-                <span className="font-semibold">Email:</span> support@mahabalipriceaction.com
+                <span className="font-semibold">Email:</span> support@parentingguide.com
+              </p>
+              <p className="text-xs text-gray-500 mt-3">
+                For questions about these terms, contact us within 48 hours.
               </p>
             </div>
           </TermsBlock>
@@ -145,8 +143,6 @@ const Page = () => {
 };
 
 export default Page;
-
-/* ---------------- Helper Components ---------------- */
 
 function TermsBlock({ title, children }) {
   return (
