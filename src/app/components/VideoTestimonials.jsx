@@ -63,11 +63,13 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
           }
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
 
     if (container) observer.observe(container);
-    return () => { if (container) observer.unobserve(container); };
+    return () => {
+      if (container) observer.unobserve(container);
+    };
   }, [onBecomeActive]);
 
   const truncatedDescription = testimonial.description.slice(0, 100) + "...";
@@ -98,7 +100,10 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
             allowFullScreen={false}
           />
         ) : (
-          <div className="relative w-full h-full cursor-pointer" onClick={onBecomeActive}>
+          <div
+            className="relative w-full h-full cursor-pointer"
+            onClick={onBecomeActive}
+          >
             <Image
               src={thumbnailSrc}
               alt={testimonial.title}
@@ -109,9 +114,9 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
             />
             {/* Play Button Overlay */}
             <div className="absolute inset-0 flex items-center justify-center bg-brand-brown/10 backdrop-blur-[2px]">
-                <div className="w-16 h-16 bg-black/90 rounded-full flex items-center justify-center shadow-xl">
-                    <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-brand-green border-b-[10px] border-b-transparent ml-1"></div>
-                </div>
+              <div className="w-16 h-16 bg-black/90 rounded-full flex items-center justify-center shadow-xl">
+                <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-brand-green border-b-[10px] border-b-transparent ml-1"></div>
+              </div>
             </div>
           </div>
         )}
@@ -119,7 +124,9 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
 
       {/* Content Section */}
       <div className="flex-1 p-6 md:p-8 flex flex-col">
-        <h3 className={`text-xl font-black mb-3 leading-tight ${isActive ? "text-[#2a180a]" : "text-[#2a180a]"}`}>
+        <h3
+          className={`text-xl font-black mb-3 leading-tight ${isActive ? "text-[#2a180a]" : "text-[#2a180a]"}`}
+        >
           {testimonial.title}
         </h3>
 
@@ -127,7 +134,7 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
           <p>{isExpanded ? testimonial.description : truncatedDescription}</p>
         </div>
 
-         <button
+        <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="mt-3 self-start text-xs font-semibold uppercase tracking-wide text-[#2a180a] cursor-pointer hover:text-[#75c13f] transition-colors"
         >
@@ -150,10 +157,14 @@ const VideoTestimonials = () => {
             Success Stories
           </span>
           <h2 className="text-4xl md:text-6xl font-black text-[#2a180a] mb-6 tracking-tight">
-            Happy Parents, <br /><span className="text-brand-green italic font-serif">Brighter Futures</span>
+            Happy Parents, <br />
+            <span className="text-brand-green italic font-serif">
+              Brighter Futures
+            </span>
           </h2>
           <p className="text-lg text-gray-500 font-medium leading-relaxed">
-            Real families who have transformed their household dynamics through Advisor Pravesh Kumar’s proven guidance.
+            Real families who have transformed their household dynamics through
+            Advisor Pravesh Kumar’s proven guidance.
           </p>
         </div>
 
