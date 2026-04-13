@@ -90,7 +90,7 @@ const MobileHero = () => {
 
             <div className="relative h-full w-full rounded-[2rem] overflow-hidden border-4 border-white">
               <img
-                src="/profile.jpg"
+                src="/profile.png"
                 alt="Advisor Pravesh Gupta"
                 className="w-full h-full object-cover"
               />

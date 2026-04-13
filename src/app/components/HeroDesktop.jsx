@@ -138,7 +138,7 @@ const HeroDesktop = () => {
                 {/* Image Wrapper */}
                 <div className="relative h-full w-full rounded-[2rem] overflow-hidden border-[8px] border-white shadow-[0_20px_50px_rgba(0,0,0,0.1)] group">
                   <img
-                    src="/profile.jpg" // Replace with your actual mentor image
+                    src="/profile.png" // Replace with your actual mentor image
                     alt="Advisor Pravesh Gupta"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-in-out"
                   />
