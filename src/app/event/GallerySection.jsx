@@ -5,7 +5,7 @@ import GalleryCard from "./GalleryCard";
 
 const galleryItems = [
   {
-    image: "/assets/gallery/workshop-1.png",
+    image: "/moments/img2.avif",
     title: "The Conscious Parent Meet",
     event: "Deep dive into child psychology and emotional intelligence for modern families.",
     participants: "200+ Parents",
@@ -14,7 +14,7 @@ const galleryItems = [
     highlight: "Interactive",
   },
   {
-    image: "/assets/gallery/seminar-2.png",
+    image: "/moments/img1.avif",
     title: "Live Q&A: Screen Time Control",
     event: "Practical workshop on managing digital habits and improving focus in children.",
     participants: "150+ Families",
@@ -23,7 +23,7 @@ const galleryItems = [
     highlight: "Housefull",
   },
   {
-    image: "/assets/gallery/certification.png",
+    image: "/moments/img3.avif",
     title: "Advanced Parent Graduation",
     event: "Celebrating parents who completed our 6-month mentorship program.",
     participants: "80+ Certified",
@@ -32,7 +32,7 @@ const galleryItems = [
     highlight: "Top Success Rate",
   },
   {
-    image: "/assets/gallery/jaipur-meet.png",
+    image: "/moments/img4.avif",
     title: "Bonding Beyond Boundaries",
     event: "A special session dedicated to father-child relationship strengthening.",
     participants: "120+ Active",
@@ -40,7 +40,7 @@ const galleryItems = [
     date: "Nov 2025",
   },
   {
-    image: "/assets/gallery/digital-parenting.png",
+    image: "/moments/img5.avif",
     title: "Modern Parenting Foundation",
     event: "Essential concepts for new parents starting their journey with us.",
     participants: "300+ Participants",
@@ -48,7 +48,7 @@ const galleryItems = [
     date: "Oct 2025",
   },
   {
-    image: "/assets/gallery/awards.png",
+    image: "/moments/img6.avif",
     title: "Excellence Awards 2025",
     event: "Recognizing extraordinary transformations in parent-child relationships.",
     participants: "25 Winners",

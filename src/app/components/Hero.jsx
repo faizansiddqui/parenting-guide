@@ -35,7 +35,7 @@ const MobileHero = () => {
       >
         <div className="flex items-center justify-between px-5 py-3">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center p-1">
+            <div className="w-11 h-11 rounded-lg bg-white border border-gray-100 flex items-center justify-center p-1">
               <img
                 src="/logo.png"
                 alt="Logo"
@@ -84,33 +84,33 @@ const MobileHero = () => {
 
         {/* Mentor Image Section */}
         <div className="relative mb-3 mt-2">
-          <div className="relative w-[240px] aspect-[4/5] mx-auto">
+          <div className="relative w-[320px] max-w-[90vw] aspect-[4/5] mx-auto">
             {/* Soft background shape behind image */}
-            <div className="absolute inset-0 bg-brand-green/5 rounded-[2.5rem] scale-105 border border-brand-green/10" />
+            <div className="absolute inset-0 bg-brand-green/10 rounded-[2.5rem] scale-105 border border-brand-green/20 animate-pulse" />
 
-            <div className="relative h-full w-full rounded-[2rem] overflow-hidden border-4 border-white">
+            <div className="relative h-full w-full rounded-[2.5rem] overflow-hidden border-4 border-white shadow-[0_20px_50px_rgba(0,0,0,0.2)]">
               <img
                 src="/profile.png"
                 alt="Advisor Pravesh Gupta"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
               />
             </div>
 
             {/* Floating Stats - Enhanced Visibility */}
-            <div className="absolute -left-6 top-1/4 bg-white px-4 py-2 rounded-[1rem] shadow-[0_10px_25px_rgba(0,0,0,0.1)] border border-gray-100">
-              <p className="text-[#4A2B12] text-xl font-black leading-none">
+            <div className="absolute -left-4 top-1/4 bg-white/90 backdrop-blur-sm px-5 py-3 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.15)] border border-white/50 z-20">
+              <p className="text-[#4A2B12] text-2xl font-black leading-none">
                 500+
               </p>
-              <p className="text-[9px] font-bold text-gray-500 uppercase mt-1">
+              <p className="text-[10px] font-bold text-gray-600 uppercase mt-1 tracking-wider">
                 Families
               </p>
             </div>
 
-            <div className="absolute -right-6 bottom-1/4 bg-white px-4 py-2 rounded-[1rem] shadow-[0_10px_25px_rgba(0,0,0,0.1)] border border-gray-100">
-              <p className="text-[#4A2B12] text-xl font-black leading-none">
+            <div className="absolute -right-4 bottom-1/4 bg-white/90 backdrop-blur-sm px-5 py-3 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.15)] border border-white/50 z-20">
+              <p className="text-[#4A2B12] text-2xl font-black leading-none">
                 Expert
               </p>
-              <p className="text-[9px] font-bold text-gray-500 uppercase mt-1">
+              <p className="text-[10px] font-bold text-gray-600 uppercase mt-1 tracking-wider">
                 Advisor
               </p>
             </div>
@@ -118,10 +118,10 @@ const MobileHero = () => {
         </div>
 
         {/* Action Card - High Contrast UI */}
-        <div className="w-full bg-white backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-3 flex flex-col items-center justify-center text-center">
+        <div className="w-full bg-white/80 backdrop-blur-xl rounded-[2.5rem] border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] p-4 flex flex-col items-center justify-center text-center mt-4">
           <button
             onClick={() => (window.location.href = "/form")}
-            className="w-full py-5 px-1 rounded-2xl bg-[#4A2B12] text-white text-lg font-black uppercase tracking-widest shadow-xl active:bg-brand-green transition-all"
+            className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#4A2B12] via-[#D99B38] to-[#4A2B12] bg-[length:200%_auto] hover:bg-right text-white text-lg font-black uppercase tracking-[0.05em] shadow-[0_10px_40px_-5px_rgba(217,155,56,0.5)] shadow-xl hover:shadow-[0_20px_50px_-5px_rgba(217,155,56,0.6)] active:scale-[0.98] transition-all duration-500 transform"
           >
             Register Now — Free
           </button>

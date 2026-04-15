@@ -10,6 +10,7 @@ const testimonials = [
     description:
       "I was struggling with my 4-year-old's daily meltdowns. Advisor Pravesh Kumar's techniques helped me understand the 'why' behind the behavior. Now, our home is much more peaceful, and I feel like a more confident parent.",
     videoId: "dQw4w9WgXcQ",
+    thumbnail: "/testimonials/img1.avif",
   },
   {
     id: "2",
@@ -17,6 +18,7 @@ const testimonials = [
     description:
       "Screen addiction was ruining our family dinners. The step-by-step guidance on setting boundaries without being a 'villain' worked like magic. My kids are now playing outdoors and reading more than ever.",
     videoId: "jNQXAC9IVRw",
+    thumbnail: "/testimonials/img2.avif",
   },
   {
     id: "3",
@@ -24,13 +26,15 @@ const testimonials = [
     description:
       "I felt like my teenager was drifting away. The communication strategies taught in this program helped us reconnect. We've gone from constant arguments to having meaningful conversations every night.",
     videoId: "9bZkp7q19f0",
+    thumbnail: "/testimonials/img3.avif",
   },
   {
     id: "4",
     title: "Positive Discipline That Works",
     description:
       "I never liked yelling, but I didn't know another way. This program showed me how to use positive discipline. It's not about being soft; it's about being effective. Truly a life-changing experience for us.",
-    videoId: "kJQP7kiw9Kk",
+    videoId: "jNQXAC9IVRw",
+    thumbnail: "/testimonials/img4.webp",
   },
   {
     id: "5",
@@ -38,13 +42,15 @@ const testimonials = [
     description:
       "Being a single mom is tough, but having a roadmap made it manageable. The advice on emotional resilience for both me and my child was exactly what I needed to hear during a difficult transition.",
     videoId: "2Vv-BfVoq4g",
+    thumbnail: "/testimonials/img5.avif",
   },
   {
     id: "6",
     title: "Better Sleep for Everyone",
     description:
       "Bedtime used to be a 2-hour battle. With the new routine and behavioral shifts suggested by Pravesh ji, my kids now go to bed happily. I finally have some 'me-time' in the evenings!",
-    videoId: "ptFbx8zdUSs",
+    videoId: "jNQXAC9IVRw",
+    thumbnail: "/testimonials/img6.avif",
   },
 ];
 
@@ -74,10 +80,12 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
 
   const truncatedDescription = testimonial.description.slice(0, 100) + "...";
 
-  const embedUrl = `https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&playsinline=1`;
-  const thumbnailSrc = thumbnailFallback
-    ? `https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`
-    : `https://img.youtube.com/vi/${testimonial.videoId}/maxresdefault.jpg`;
+  const embedUrl = `https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&mute=1&rel=0&showinfo=0&iv_load_policy=3&playsinline=1`;
+  const thumbnailSrc =
+    testimonial.thumbnail ||
+    (thumbnailFallback
+      ? `https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`
+      : `https://img.youtube.com/vi/${testimonial.videoId}/maxresdefault.jpg`);
 
   return (
     <div
@@ -113,7 +121,7 @@ const VideoCard = ({ testimonial, isActive, onBecomeActive }) => {
               unoptimized
             />
             {/* Play Button Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-brand-brown/10 backdrop-blur-[2px]">
+            <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-16 h-16 bg-black/90 rounded-full flex items-center justify-center shadow-xl">
                 <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-brand-green border-b-[10px] border-b-transparent ml-1"></div>
               </div>
