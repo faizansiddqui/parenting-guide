@@ -381,7 +381,7 @@ export default function LearningForm({ showStickyBar = true }) {
 
       {showStickyBar && (
         <div
-          className="fixed inset-x-0 z-[100] bg-white/80 backdrop-blur-xl border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.4)]"
+          className="lg:hidden fixed inset-x-0 z-[100] bg-white/80 backdrop-blur-xl border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.4)]"
           style={{
             bottom: "env(safe-area-inset-bottom, 0px)",
             paddingBottom: "calc(1rem + env(safe-area-inset-bottom, 0px))",
