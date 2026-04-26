@@ -49,38 +49,6 @@ const calculateWebinarData = () => {
 
 const initialWebinarData = calculateWebinarData();
 
-const indianStates = [
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chhattisgarh",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "Nagaland",
-  "Odisha",
-  "Punjab",
-  "Rajasthan",
-  "Sikkim",
-  "Tamil Nadu",
-  "Telangana",
-  "Tripura",
-  "Uttar Pradesh",
-  "Uttarakhand",
-  "West Bengal",
-  "Delhi",
-];
-
 const calculateBookedSeats = () => {
   const now = new Date();
   const seatCount = 92 + now.getDate() + Math.floor(now.getHours() / 2);
@@ -96,7 +64,6 @@ export default function LearningForm({ showStickyBar = true }) {
     name: "",
     email: "",
     phone: "",
-    state: "",
     webinarDay: initialWebinarData.webinarDay,
     webinarDate: initialWebinarData.webinarDate,
     webinarTime: initialWebinarData.webinarTime,
@@ -249,29 +216,6 @@ export default function LearningForm({ showStickyBar = true }) {
                       placeholder="rahul@example.com"
                       className="w-full pl-12 pr-5 py-4 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-4 focus:ring-[#3B5E2B]/5 focus:border-[#3B5E2B] transition-all text-[#4A2B12] font-bold"
                     />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">
-                    State
-                  </label>
-                  <div className="relative group">
-                    <select
-                      name="state"
-                      required
-                      value={formData.state}
-                      onChange={handleChange}
-                      className="w-full appearance-none px-5 pr-12 py-4 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-4 focus:ring-[#3B5E2B]/5 focus:border-[#3B5E2B] transition-all text-[#4A2B12] font-bold"
-                    >
-                      <option value="">Select your state</option>
-                      {indianStates.map((stateName) => (
-                        <option key={stateName} value={stateName}>
-                          {stateName}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronRight className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-300 rotate-90" />
                   </div>
                 </div>
 
