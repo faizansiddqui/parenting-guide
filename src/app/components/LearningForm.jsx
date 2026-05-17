@@ -283,7 +283,7 @@ export default function LearningForm({ showStickyBar = true }) {
               </div>
             </div>
 
-            <div className="absolute bottom-20 left-8 animate-float delay-700">
+            <div className="absolute bottom-8 left-10 animate-float delay-700">
               <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-md border border-stone-100 flex items-center gap-3">
                 <div className="bg-[#3B5E2B] p-2 rounded-xl text-white">
                   <Heart className="w-5 h-5 fill-current" />
