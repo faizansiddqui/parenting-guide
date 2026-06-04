@@ -2,8 +2,8 @@
 import { NextResponse } from "next/server";
 import { cleanPhone10 } from "../../lib/phone";
 import { validateForm } from "../../lib/validate";
-import { saveToSheet, markCell } from "../../lib/googleSheet";
-import { sendConfirmation } from "../../lib/aisensy";
+import { findActiveLeadByContact, saveToSheet, markCell } from "../../lib/googleSheet";
+import { isWhatsAppSendingEnabled, sendConfirmation } from "../../lib/waspakamify";
 import { getQstashTargetUrl, publishScheduled, toEpochSeconds } from "../../lib/qstash";
 
 // Column J = sentConfirmation
@@ -101,6 +101,22 @@ export async function POST(req) {
       );
     }
 
+    const activeLead = await findActiveLeadByContact({
+      email: normalized.email,
+      phone10,
+    });
+
+    if (activeLead) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "You are already registered for a webinar. Please wait until it is completed before submitting again.",
+        },
+        { status: 409 }
+      );
+    }
+
     const leadId = (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`)
       .replace(/[^\w-]/g, "");
 
@@ -117,16 +133,35 @@ export async function POST(req) {
       leadId,
     });
 
-    // send confirmation
-    await sendConfirmation({
-      name: normalized.name,
-      email: normalized.email,
-      phone10,
-      webinarMeta: { webinarDay, webinarDate, webinarTime, webinarISO },
-    });
+    const whatsappEnabled = isWhatsAppSendingEnabled();
+    let confirmationStatus = whatsappEnabled ? "failed" : "disabled";
+
+    if (whatsappEnabled) {
+      try {
+        await sendConfirmation({
+          name: normalized.name,
+          email: normalized.email,
+          phone10,
+          webinarMeta: { webinarDay, webinarDate, webinarTime, webinarISO },
+        });
+        confirmationStatus = "yes";
+      } catch (sendError) {
+        console.error("WHATSAPP_CONFIRMATION_FAILED", {
+          rowNumber,
+          leadId,
+          message: sendError?.message || String(sendError),
+        });
+      }
+    } else {
+      console.log("WHATSAPP_CONFIRMATION_SKIPPED", {
+        rowNumber,
+        leadId,
+        reason: "WHATSAPP_SENDING_ENABLED=false",
+      });
+    }
 
     // schedule reminders via QStash
-    if (rowNumber) {
+    if (rowNumber && whatsappEnabled) {
       const baseUrl = getQstashTargetUrl(req.url, req.headers);
       const receiverUrl = `${baseUrl}/api/qstash`;
       try {
@@ -176,9 +211,9 @@ export async function POST(req) {
       });
     }
 
-    // if success -> mark sentConfirmation = yes
+    // Mark confirmation status without failing the saved lead.
     if (rowNumber) {
-      await markCell(rowNumber, COL_LETTER_SENT_CONFIRM, "yes");
+      await markCell(rowNumber, COL_LETTER_SENT_CONFIRM, confirmationStatus);
     }
 
     return NextResponse.json({ success: true, message: "Form submitted successfully!" });
@@ -186,11 +221,15 @@ export async function POST(req) {
     console.error("API Error:", error);
     const raw = String(error?.message || "");
     let safeMessage = "Something went wrong. Please try again.";
-    if (raw.toLowerCase().includes("insufficient whatsapp conversation credits")) {
+    const lowerRaw = raw.toLowerCase();
+    if (
+      lowerRaw.includes("insufficient whatsapp conversation credits") ||
+      lowerRaw.includes("insufficient wallet balance")
+    ) {
       safeMessage = "We are facing some issue. Please try again later.";
-    } else if (raw.toLowerCase().includes("invalid phone")) {
+    } else if (lowerRaw.includes("invalid phone")) {
       safeMessage = "Please enter a valid 10-digit phone number.";
-    } else if (raw.toLowerCase().includes("webinar")) {
+    } else if (lowerRaw.includes("webinar")) {
       safeMessage = "Please refresh the page and try again.";
     }
     return NextResponse.json(

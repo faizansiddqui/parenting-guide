@@ -2,7 +2,18 @@
 import { NextResponse } from "next/server";
 import { verifyQstashRequest } from "../../lib/qstash";
 import { findRowByLeadId, markCell } from "../../lib/googleSheet";
-import { send1DayReminder, send10MinReminder, sendLiveNow } from "../../lib/aisensy";
+import {
+  isWhatsAppSendingEnabled,
+  send1DayReminder,
+  send10MinReminder,
+  sendLiveNow,
+} from "../../lib/waspakamify";
+
+const REMINDER_COLUMNS = {
+  "1day": "K",
+  "10min": "L",
+  live: "M",
+};
 
 export async function POST(req) {
   try {
@@ -42,6 +53,19 @@ export async function POST(req) {
     }
 
     console.log("QSTASH RECEIVED", { type, rowNumber: targetRow, leadId, phone10, webinarDate, webinarDay, webinarTime });
+
+    if (!isWhatsAppSendingEnabled()) {
+      const column = REMINDER_COLUMNS[type];
+      if (column) {
+        await markCell(targetRow, column, "disabled");
+      }
+      console.log("QSTASH WHATSAPP SKIPPED", {
+        type,
+        rowNumber: targetRow,
+        reason: "WHATSAPP_SENDING_ENABLED=false",
+      });
+      return NextResponse.json({ ok: true, skipped: true });
+    }
 
     if (type === "1day") {
       await send1DayReminder({ name, phone10, webinarDate, webinarDay, webinarTime });

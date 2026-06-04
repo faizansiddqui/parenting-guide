@@ -1,7 +1,12 @@
 // src/app/api/cron/route.js
 import { NextResponse } from "next/server";
 import { readAllLeads, markCell } from "../../lib/googleSheet";
-import { send1DayReminder, send10MinReminder, sendLiveNow } from "../../lib/aisensy";
+import {
+  isWhatsAppSendingEnabled,
+  send1DayReminder,
+  send10MinReminder,
+  sendLiveNow,
+} from "../../lib/waspakamify";
 
 // 0-based indexes for A:M
 const COL_NAME = 1;         // B
@@ -41,13 +46,25 @@ export async function GET(req) {
     const MIN = 60 * 1000;
     const WINDOW_MIN = Number(process.env.CRON_WINDOW_MINUTES || 5);
     const WINDOW_MS = WINDOW_MIN * MIN;
+    const whatsappEnabled = isWhatsAppSendingEnabled();
 
     let sentCount = { confirm: 0, oneDay: 0, tenMin: 0, live: 0, skipped: 0 };
     console.log("CRON START", {
       now: now.toISOString(),
       windowMinutes: WINDOW_MIN,
       totalLeads: leads.length,
+      whatsappEnabled,
     });
+
+    if (!whatsappEnabled) {
+      return NextResponse.json({
+        ok: true,
+        skipped: true,
+        reason: "WHATSAPP_SENDING_ENABLED=false",
+        sentCount,
+        totalLeads: leads.length,
+      });
+    }
 
     for (let i = 0; i < leads.length; i++) {
       const row = leads[i];
@@ -82,7 +99,7 @@ export async function GET(req) {
       const diffMin = Math.round(diffMs / MIN);
 
       // If confirmation already sent via API, but sheet still says "no"
-      if (sentConfirm !== "yes") {
+      if (sentConfirm === "no") {
         await markCell(sheetRowNumber, LETTER_SENT_CONFIRM, "yes");
         sentCount.confirm++;
       }
