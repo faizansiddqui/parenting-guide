@@ -108,10 +108,10 @@ export default function ThankYouClient({ communityLink, eventName }) {
                 href={resolvedCommunityLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group mb-10 w-full px-5 py-5 bg-[#25D366] hover:bg-[#1eb956] text-white font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 rounded-2xl transition-all duration-500 shadow-[0_15px_30px_rgba(37,211,102,0.2)] hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] hover:scale-100"
+                className="group mb-10 w-full px-5 py-5 border border-[#25D366] hover:border-[#1eb956] text-[#25D366] font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 rounded-2xl transition-all duration-500 shadow-[0_15px_30px_rgba(37,211,102,0.2)] hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] hover:scale-100"
               >
                 Join WhatsApp Community
-                <span className="bg-white/20 p-1 rounded-full group-hover:scale-125 transition-transform">
+                <span className="bg-[#25D366]/20 p-1 rounded-full group-hover:scale-125 transition-transform">
                   <ArrowRight className="w-4 h-4" />
                 </span>
               </a>
