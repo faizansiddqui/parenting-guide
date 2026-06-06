@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   CheckCircle2,
   Users,
   Calendar,
   Clock,
-  ArrowLeft,
   Layout,
   MapPin,
   Phone,
@@ -16,6 +14,8 @@ import {
 
 export default function ThankYouClient({ communityLink, eventName }) {
   const router = useRouter();
+  const resolvedCommunityLink =
+    communityLink || process.env.NEXT_PUBLIC_WHATSAPP_COMMUNITY_URL || "";
   const [data, setData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -102,6 +102,20 @@ export default function ThankYouClient({ communityLink, eventName }) {
           </div>
 
           <div className="p-8 sm:p-12">
+            {resolvedCommunityLink ? (
+              <a
+                href={resolvedCommunityLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mb-10 w-full px-5 py-5 bg-[#25D366] hover:bg-[#1eb956] text-white font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 rounded-2xl transition-all duration-500 shadow-[0_15px_30px_rgba(37,211,102,0.2)] hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] hover:-translate-y-1"
+              >
+                Join WhatsApp Community
+                <span className="bg-white/20 p-1 rounded-full group-hover:rotate-12 transition-transform">
+                  <Users className="w-4 h-4" />
+                </span>
+              </a>
+            ) : null}
+
             <div className="grid gap-2 md:grid-cols-2">
               {/* Profile Details */}
               <div className="space-y-4">
@@ -196,30 +210,6 @@ export default function ThankYouClient({ communityLink, eventName }) {
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* CTA Section */}
-            <div className="mt-12 space-y-4">
-              {communityLink ? (
-                <a
-                  href={communityLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group w-full px-5 py-5  bg-[#25D366] hover:bg-[#1eb956] text-white font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 rounded-2xl transition-all duration-500 shadow-[0_15px_30px_rgba(37,211,102,0.2)] hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] hover:-translate-y-1"
-                >
-                  Join WhatsApp Community
-                  <div className="bg-white/20 p-1 rounded-full group-hover:rotate-12 transition-transform">
-                    <Users className="w-4 h-4" />
-                  </div>
-                </a>
-              ) : null}
-
-              <Link
-                href="/"
-                className="w-full py-5 bg-white text-stone-400 hover:text-[#4A2B12] font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 rounded-2xl border border-stone-100 hover:border-stone-200 transition-all duration-300"
-              >
-                <ArrowLeft className="w-4 h-4" /> Go back to Home
-              </Link>
             </div>
 
             {/* Footer Branding */}

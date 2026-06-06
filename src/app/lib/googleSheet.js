@@ -93,8 +93,8 @@ export async function saveToSheet({
     "no",                               // K sent1Day
     "no",                               // L sent10Min
     "no",                               // M sentLive
-    leadId || "",                       // N leadId
     "no",                               // O sentMorning
+    leadId || "",                       // N leadId
   ]];
 
   const res = await runSheetRequest(() =>
