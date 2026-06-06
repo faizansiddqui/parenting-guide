@@ -94,12 +94,13 @@ export async function saveToSheet({
     "no",                               // L sent10Min
     "no",                               // M sentLive
     leadId || "",                       // N leadId
+    "no",                               // O sentMorning
   ]];
 
   const res = await runSheetRequest(() =>
     sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: "Sheet1!A:N",
+      range: "Sheet1!A:O",
       valueInputOption: "RAW",
       requestBody: { values },
     })
@@ -160,7 +161,7 @@ export async function readAllLeads() {
   const res = await runSheetRequest(() =>
     sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: "Sheet1!A:N",
+      range: "Sheet1!A:O",
     })
   );
 

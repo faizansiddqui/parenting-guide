@@ -13,36 +13,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { formatWebinarParts, getNextWebinarDate } from "../lib/webinar";
 
 // --- PARENTING TEXT DATA ---
 const calculateWebinarData = () => {
-  const now = new Date();
-  const SUNDAY = 0;
-  const THURSDAY = 4;
-
-  let webinarDateObj = new Date();
   const webinarType = "Mindful Parenting Workshop"; // Text changed
-  const webinarTime = "08:00 PM";
-
-  function getNextDay(targetDay) {
-    const result = new Date(now);
-    const dayDiff = (targetDay - now.getDay() + 7) % 7;
-    result.setDate(now.getDate() + (dayDiff === 0 ? 7 : dayDiff));
-    return result;
-  }
-
-  const nextSunday = getNextDay(SUNDAY);
-  const nextThursday = getNextDay(THURSDAY);
-  webinarDateObj = nextSunday < nextThursday ? nextSunday : nextThursday;
-
-  const webinarDay = webinarDateObj.toLocaleDateString("en-IN", {
-    weekday: "long",
-  });
-  const webinarDate = webinarDateObj.toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+  const webinarDateObj = getNextWebinarDate();
+  const { webinarDay, webinarDate, webinarTime } = formatWebinarParts(webinarDateObj);
 
   return { webinarDay, webinarDate, webinarTime, webinarType };
 };
@@ -127,9 +104,14 @@ export default function LearningForm({ showStickyBar = true }) {
 
       const result = await response.json();
       if (result.success) {
+        const webinarMeta = result.webinar || {
+          webinarDay: formData.webinarDay,
+          webinarDate: formData.webinarDate,
+          webinarTime: formData.webinarTime,
+        };
         localStorage.setItem(
           "thankyouData",
-          JSON.stringify({ ...formData, phone: formattedPhone }),
+          JSON.stringify({ ...formData, ...webinarMeta, phone: formattedPhone }),
         );
         router.push("/thank-you");
       } else {

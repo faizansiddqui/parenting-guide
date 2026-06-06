@@ -5,12 +5,14 @@ import { findRowByLeadId, markCell } from "../../lib/googleSheet";
 import {
   isWhatsAppSendingEnabled,
   send1DayReminder,
+  sendMorningReminder,
   send10MinReminder,
   sendLiveNow,
 } from "../../lib/waspakamify";
 
 const REMINDER_COLUMNS = {
   "1day": "K",
+  morning: "O",
   "10min": "L",
   live: "M",
 };
@@ -71,6 +73,10 @@ export async function POST(req) {
       await send1DayReminder({ name, phone10, webinarDate, webinarDay, webinarTime });
       await markCell(targetRow, "K", "yes");
       console.log("QSTASH SENT 1DAY", { rowNumber: targetRow });
+    } else if (type === "morning") {
+      await sendMorningReminder({ name, phone10, webinarDate, webinarDay, webinarTime });
+      await markCell(targetRow, "O", "yes");
+      console.log("QSTASH SENT MORNING", { rowNumber: targetRow });
     } else if (type === "10min") {
       await send10MinReminder({ name, phone10, webinarDate, webinarDay, webinarTime });
       await markCell(targetRow, "L", "yes");

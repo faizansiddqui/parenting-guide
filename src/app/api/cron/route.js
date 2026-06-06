@@ -4,11 +4,13 @@ import { readAllLeads, markCell } from "../../lib/googleSheet";
 import {
   isWhatsAppSendingEnabled,
   send1DayReminder,
+  sendMorningReminder,
   send10MinReminder,
   sendLiveNow,
 } from "../../lib/waspakamify";
+import { getMorningReminderDate } from "../../lib/webinar";
 
-// 0-based indexes for A:M
+// 0-based indexes for A:O
 const COL_NAME = 1;         // B
 const COL_EMAIL = 2;        // C
 const COL_PHONE = 3;        // D
@@ -21,11 +23,13 @@ const COL_SENT_CONFIRM = 9; // J
 const COL_SENT_1DAY = 10;   // K
 const COL_SENT_10MIN = 11;  // L
 const COL_SENT_LIVE = 12;   // M
+const COL_SENT_MORNING = 14; // O
 
 const LETTER_SENT_CONFIRM = "J";
 const LETTER_SENT_1DAY = "K";
 const LETTER_SENT_10MIN = "L";
 const LETTER_SENT_LIVE = "M";
+const LETTER_SENT_MORNING = "O";
 
 function isAuthorized(req) {
   // for GitHub Actions: /api/cron?secret=XXXX
@@ -48,7 +52,7 @@ export async function GET(req) {
     const WINDOW_MS = WINDOW_MIN * MIN;
     const whatsappEnabled = isWhatsAppSendingEnabled();
 
-    let sentCount = { confirm: 0, oneDay: 0, tenMin: 0, live: 0, skipped: 0 };
+    let sentCount = { confirm: 0, oneDay: 0, morning: 0, tenMin: 0, live: 0, skipped: 0 };
     console.log("CRON START", {
       now: now.toISOString(),
       windowMinutes: WINDOW_MIN,
@@ -81,6 +85,7 @@ export async function GET(req) {
       const sent1Day = String(row[COL_SENT_1DAY] || "no").toLowerCase();
       const sent10Min = String(row[COL_SENT_10MIN] || "no").toLowerCase();
       const sentLive = String(row[COL_SENT_LIVE] || "no").toLowerCase();
+      const sentMorning = String(row[COL_SENT_MORNING] || "no").toLowerCase();
 
       // basic validations
       if (!phone10 || phone10.length !== 10) {
@@ -97,6 +102,8 @@ export async function GET(req) {
       const webinarDT = new Date(webinarISO);
       const diffMs = webinarDT.getTime() - now.getTime();
       const diffMin = Math.round(diffMs / MIN);
+      const morningReminderDT = getMorningReminderDate(webinarDT);
+      const morningDiffMs = morningReminderDT.getTime() - now.getTime();
 
       // If confirmation already sent via API, but sheet still says "no"
       if (sentConfirm === "no") {
@@ -110,6 +117,15 @@ export async function GET(req) {
         await markCell(sheetRowNumber, LETTER_SENT_1DAY, "yes");
         sentCount.oneDay++;
         console.log("SEND 1DAY", { sheetRowNumber, diffMin, webinarISO });
+        continue;
+      }
+
+      // Webinar-day 09:00 AM IST window
+      if (sentMorning !== "yes" && morningDiffMs <= 0 && morningDiffMs > -WINDOW_MS) {
+        await sendMorningReminder({ name, phone10, webinarDate, webinarDay, webinarTime });
+        await markCell(sheetRowNumber, LETTER_SENT_MORNING, "yes");
+        sentCount.morning++;
+        console.log("SEND MORNING", { sheetRowNumber, webinarISO });
         continue;
       }
 
@@ -136,6 +152,7 @@ export async function GET(req) {
         diffMin,
         webinarISO,
         sent1Day,
+        sentMorning,
         sent10Min,
         sentLive,
       });

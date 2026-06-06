@@ -1,7 +1,6 @@
 // src/app/lib/waspakamify.js
 import { to91 } from "./phone";
 
-const WEBINAR_LINK = process.env.WEBINAR_LINK;
 const WASPAKAMIFY_DEBUG = process.env.WASPAKAMIFY_DEBUG === "true";
 
 export function isWhatsAppSendingEnabled() {
@@ -131,11 +130,20 @@ export async function send1DayReminder({ name, phone10, webinarDate, webinarDay,
   });
 }
 
+export async function sendMorningReminder({ name, phone10, webinarDate, webinarDay, webinarTime }) {
+  return callWaspAkamify({
+    campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_MORNING"),
+    destination: to91(phone10),
+    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} webinar link
+    variables: [name, webinarDate, webinarDay, webinarTime, requireEnv("WEBINAR_LINK")],
+  });
+}
+
 export async function send10MinReminder({ name, phone10, webinarDate, webinarDay, webinarTime }) {
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_10MIN"),
     destination: to91(phone10),
-    variables: [name, webinarDate, webinarDay, webinarTime, WEBINAR_LINK],
+    variables: [name, webinarDate, webinarDay, webinarTime, requireEnv("WEBINAR_LINK")],
   });
 }
 
@@ -143,6 +151,6 @@ export async function sendLiveNow({ name, phone10, webinarDate, webinarDay, webi
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_LIVE"),
     destination: to91(phone10),
-    variables: [name, webinarDate, webinarDay, webinarTime, WEBINAR_LINK],
+    variables: [name, webinarDate, webinarDay, webinarTime, requireEnv("WEBINAR_LINK")],
   });
 }
