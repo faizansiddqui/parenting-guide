@@ -86,8 +86,8 @@ export async function POST(req) {
       });
     }
 
-    // schedule reminders via QStash
-    if (rowNumber && whatsappEnabled) {
+    // schedule reminders via QStash only if confirmation was sent successfully
+    if (rowNumber && whatsappEnabled && confirmationStatus === "yes") {
       const baseUrl = getQstashTargetUrl(req.url, req.headers);
       const receiverUrl = `${baseUrl}/api/qstash`;
       try {
