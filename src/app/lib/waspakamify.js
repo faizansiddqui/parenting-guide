@@ -126,7 +126,14 @@ export async function send1DayReminder({ name, phone10, webinarDate, webinarDay,
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_1DAY"),
     destination: to91(phone10),
-    variables: [name, webinarDate, webinarDay, webinarTime],
+    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} community URL
+    variables: [
+      name,
+      webinarDate,
+      webinarDay,
+      webinarTime,
+      requireEnv("WHATSAPP_COMMUNITY_URL"),
+    ],
   });
 }
 
@@ -134,8 +141,15 @@ export async function sendMorningReminder({ name, phone10, webinarDate, webinarD
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_MORNING"),
     destination: to91(phone10),
-    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} webinar link
-    variables: [name, webinarDate, webinarDay, webinarTime, requireEnv("WEBINAR_LINK")],
+    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} webinar link, {{6}} community URL
+    variables: [
+      name,
+      webinarDate,
+      webinarDay,
+      webinarTime,
+      requireEnv("WEBINAR_LINK"),
+      requireEnv("WHATSAPP_COMMUNITY_URL"),
+    ],
   });
 }
 
@@ -143,7 +157,15 @@ export async function send10MinReminder({ name, phone10, webinarDate, webinarDay
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_10MIN"),
     destination: to91(phone10),
-    variables: [name, webinarDate, webinarDay, webinarTime, requireEnv("WEBINAR_LINK")],
+    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} webinar link, {{6}} community URL
+    variables: [
+      name,
+      webinarDate,
+      webinarDay,
+      webinarTime,
+      requireEnv("WEBINAR_LINK"),
+      requireEnv("WHATSAPP_COMMUNITY_URL"),
+    ],
   });
 }
 
@@ -151,6 +173,14 @@ export async function sendLiveNow({ name, phone10, webinarDate, webinarDay, webi
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_LIVE"),
     destination: to91(phone10),
-    variables: [name, webinarDate, webinarDay, webinarTime, requireEnv("WEBINAR_LINK")],
+    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} webinar link, {{6}} community URL
+    variables: [
+      name,
+      webinarDate,
+      webinarDay,
+      webinarTime,
+      requireEnv("WEBINAR_LINK"),
+      requireEnv("WHATSAPP_COMMUNITY_URL"),
+    ],
   });
 }
