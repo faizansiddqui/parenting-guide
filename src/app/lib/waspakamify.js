@@ -95,9 +95,10 @@ export async function sendConfirmation({ name, email, phone10, webinarMeta }) {
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_CONFIRM"),
     destination: to91(phone10),
-    // TEMPLATE: {{1}} name, {{2}} email, {{3}} phone, {{4}} date, {{5}} day, {{6}} time
+    // TEMPLATE: {{1}} name, {{2}} webinar name, {{3}} email, {{4}} phone, {{5}} date, {{6}} day, {{7}} time
     variables: [
       name,
+      requireEnv("WEBINAR_EVENT_NAME"),
       email,
       phone10,
       webinarMeta.webinarDate,
@@ -126,9 +127,10 @@ export async function send1DayReminder({ name, phone10, webinarDate, webinarDay,
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_1DAY"),
     destination: to91(phone10),
-    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} community URL
+    // TEMPLATE: {{1}} name, {{2}} webinar name, {{3}} date, {{4}} day, {{5}} time, {{6}} community URL
     variables: [
       name,
+      requireEnv("WEBINAR_EVENT_NAME"),
       webinarDate,
       webinarDay,
       webinarTime,
@@ -141,9 +143,10 @@ export async function sendMorningReminder({ name, phone10, webinarDate, webinarD
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_MORNING"),
     destination: to91(phone10),
-    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} webinar link, {{6}} community URL
+    // TEMPLATE: {{1}} name, {{2}} webinar name, {{3}} date, {{4}} day, {{5}} time, {{6}} webinar link, {{7}} community URL
     variables: [
       name,
+      requireEnv("WEBINAR_EVENT_NAME"),
       webinarDate,
       webinarDay,
       webinarTime,
@@ -157,9 +160,10 @@ export async function send10MinReminder({ name, phone10, webinarDate, webinarDay
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_10MIN"),
     destination: to91(phone10),
-    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} webinar link, {{6}} community URL
+    // TEMPLATE: {{1}} name, {{2}} webinar name, {{3}} date, {{4}} day, {{5}} time, {{6}} webinar link, {{7}} community URL
     variables: [
       name,
+      requireEnv("WEBINAR_EVENT_NAME"),
       webinarDate,
       webinarDay,
       webinarTime,
@@ -173,9 +177,10 @@ export async function sendLiveNow({ name, phone10, webinarDate, webinarDay, webi
   return callWaspAkamify({
     campaignName: requireEnv("WASPAKAMIFY_CAMPAIGN_LIVE"),
     destination: to91(phone10),
-    // TEMPLATE: {{1}} name, {{2}} date, {{3}} day, {{4}} time, {{5}} webinar link, {{6}} community URL
+    // TEMPLATE: {{1}} name, {{2}} webinar name, {{3}} date, {{4}} day, {{5}} time, {{6}} webinar link, {{7}} community URL
     variables: [
       name,
+      requireEnv("WEBINAR_EVENT_NAME"),
       webinarDate,
       webinarDay,
       webinarTime,
